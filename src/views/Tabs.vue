@@ -18,7 +18,7 @@
         </ion-tab-button>
 
         <ion-tab-button tab="add" href="/notes/add">
-          <ion-icon :icon="square" />
+          <ion-icon :icon="create" />
           <ion-label>Add</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -35,7 +35,7 @@ import {
   IonIcon,
   IonPage
 } from "@ionic/vue";
-import { square, home, heart } from "ionicons/icons";
+import { square, home, heart, create } from "ionicons/icons";
 
 export default {
   name: "Tabs",
@@ -44,7 +44,8 @@ export default {
     return {
       heart,
       square,
-      home
+      home,
+      create
     };
   }
 };
