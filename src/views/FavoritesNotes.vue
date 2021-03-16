@@ -2,17 +2,28 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 2</ion-title>
+        <ion-title>Favoritos</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Tab 2</ion-title>
+          <ion-title size="large">Favoritos</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 2 page" />
+      <ion-list v-if="notes.length > 0">
+        <ion-item-sliding v-for="(note, index) in notes" :key="index">
+          <ion-item>
+            <ion-label>{{ note.titulo }}</ion-label>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option @click="remove(note)" color="danger">
+              <ion-icon :icon="trash" />
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
@@ -23,19 +34,65 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent
+  IonContent,
+  IonList,
+  IonItemSliding,
+  IonItemOptions,
+  IonItemOption,
+  IonIcon,
+  IonLabel,
+  IonItem
 } from "@ionic/vue";
-import ExploreContainer from "@/components/ExploreContainer.vue";
+import { trash } from "ionicons/icons";
+import { defineComponent } from "vue";
 
-export default {
-  name: "Tab2",
+export default defineComponent({
+  name: "FavoritesNotes",
   components: {
-    ExploreContainer,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonPage
+    IonPage,
+    IonList,
+    IonItemSliding,
+    IonItemOptions,
+    IonItemOption,
+    IonIcon,
+    IonLabel,
+    IonItem
+  },
+  setup() {
+    return {
+      trash
+    };
+  },
+  data() {
+    return {
+      notes: [{ id: "" }]
+    };
+  },
+  methods: {
+    getFavorites(): void {
+      const favorites = localStorage.favoritesNotes
+        ? JSON.parse(localStorage.favoritesNotes)
+        : [];
+      console.log(favorites);
+      this.notes = favorites;
+    },
+    remove(note: any): void {
+      const favorites: Array<any> = this.notes.filter((n) => n.id !== note.id);
+
+      localStorage.setItem("favoritesNotes", JSON.stringify(favorites));
+
+      this.notes = favorites;
+    }
+  },
+  created() {
+    this.getFavorites();
+  },
+  ionViewDidEnter() {
+    this.getFavorites();
   }
-};
+});
 </script>

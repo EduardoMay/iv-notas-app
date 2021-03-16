@@ -14,7 +14,9 @@
       <ion-list v-if="notas.length > 0">
         <ion-item-sliding v-for="(note, index) in notas" :key="index">
           <ion-item-options side="start">
-            <ion-item-option @click="favorite(note)">Favorito</ion-item-option>
+            <ion-item-option @click="favorite(note)">
+              <ion-icon :icon="heart" />
+            </ion-item-option>
           </ion-item-options>
           <ion-item>
             <ion-label>{{ note.titulo }}</ion-label>
@@ -38,8 +40,10 @@ import {
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
-  toastController
+  toastController,
+  IonIcon
 } from "@ionic/vue";
+import { heart } from "ionicons/icons";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -55,12 +59,16 @@ export default defineComponent({
     IonLabel,
     IonItemSliding,
     IonItemOptions,
-    IonItemOption
+    IonItemOption,
+    IonIcon
   },
   data() {
     return {
       notas: [{ titulo: "", nota: "" }]
     };
+  },
+  setup() {
+    return { heart };
   },
   methods: {
     obtenerNotas(): void {
