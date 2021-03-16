@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Add note</ion-title>
+        <ion-title>Agregar nueva nota</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="false">

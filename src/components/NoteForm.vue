@@ -56,7 +56,9 @@ export default defineComponent({
   methods: {
     guardarNota() {
       if (this.titulo !== "" && this.nota !== "") {
-        const nota: Array<any> = [{ titulo: this.titulo, nota: this.nota }];
+        const nota: Array<any> = [
+          { id: new Date().getTime(), titulo: this.titulo, nota: this.nota }
+        ];
         let notas: Array<any> = localStorage.notas
           ? JSON.parse(localStorage.notas)
           : [];

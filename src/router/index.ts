@@ -17,15 +17,15 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'list',
-        component: () => import('@/views/Tab1.vue')
+        component: () => import('@/views/ListNotes.vue')
       },
       {
         path: 'favorites',
-        component: () => import('@/views/Tab2.vue')
+        component: () => import('@/views/FavoritesNotes.vue')
       },
       {
         path: 'categories',
-        component: () => import('@/views/Tab3.vue')
+        component: () => import('@/views/CategoriesNotes.vue')
       },
       {
         path: 'add',
