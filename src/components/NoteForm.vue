@@ -1,17 +1,17 @@
 <template>
   <ion-page>
     <ion-content>
-      <form @submit.prevent="guardarNota()">
-        <ion-item>
+      <form @submit.prevent="guardarNota()" id="container">
+        <ion-item id="item">
           <ion-label position="floating">Titulo</ion-label>
           <ion-input v-model="titulo"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Floating Label</ion-label>
+          <ion-label position="floating">Descripción</ion-label>
           <ion-textarea rows="10" v-model="nota"></ion-textarea>
         </ion-item>
         <ion-button expand="block" type="submit">
-          Block Button
+          Guardar
         </ion-button>
       </form>
     </ion-content>
@@ -91,3 +91,13 @@ export default defineComponent({
   }
 });
 </script>
+<style scope>
+#container {
+  width: 90%;
+  margin: auto;
+  margin-top: 1rem;
+}
+#item {
+  margin-bottom: 0.5rem;
+}
+</style>
