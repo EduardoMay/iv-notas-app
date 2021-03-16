@@ -18,7 +18,7 @@
               <ion-icon :icon="heart" />
             </ion-item-option>
           </ion-item-options>
-          <ion-item>
+          <ion-item :router-link="'/notes/view/' + note.id">
             <ion-label>{{ note.titulo }}</ion-label>
           </ion-item>
         </ion-item-sliding>
