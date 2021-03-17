@@ -34,6 +34,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'add',
         component: () => import('@/views/AddNote.vue')
+      },
+      {
+        path: 'edit/:id',
+        component: () => import('@/views/AddNote.vue')
       }
     ]
   }

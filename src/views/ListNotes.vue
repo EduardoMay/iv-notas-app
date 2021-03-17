@@ -11,16 +11,28 @@
           <ion-title size="large">Notas</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list v-if="notas.length > 0">
+      <ion-list v-if="notas.length > 0" ref="listNotes">
         <ion-item-sliding v-for="(note, index) in notas" :key="index">
           <ion-item-options side="start">
-            <ion-item-option @click="favorite(note)">
-              <ion-icon :icon="heart" />
+            <ion-item-option @click="favorite(note)" color="danger" expandable>
+              <ion-icon :icon="heart" :v-slot="'icon-only'" />
             </ion-item-option>
           </ion-item-options>
           <ion-item :router-link="'/notes/view/' + note.id">
             <ion-label>{{ note.titulo }}</ion-label>
           </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option
+              @click="
+                () => {
+                  resetSlides();
+                  router.push(`/notes/edit/${note.id}`);
+                }
+              "
+            >
+              <ion-icon :icon="create" :v-slot="'icon-only'" />
+            </ion-item-option>
+          </ion-item-options>
         </ion-item-sliding>
       </ion-list>
     </ion-content>
@@ -43,8 +55,9 @@ import {
   toastController,
   IonIcon
 } from "@ionic/vue";
-import { heart } from "ionicons/icons";
-import { defineComponent } from "vue";
+import { heart, create } from "ionicons/icons";
+import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "ListsNotes",
@@ -68,7 +81,14 @@ export default defineComponent({
     };
   },
   setup() {
-    return { heart };
+    const router = useRouter();
+    const listNotes = ref();
+
+    const resetSlides = () => {
+      listNotes.value.$el.closeSlidingItems();
+    };
+
+    return { heart, router, create, resetSlides, listNotes };
   },
   methods: {
     obtenerNotas(): void {
@@ -88,14 +108,15 @@ export default defineComponent({
 
       if (obj) {
         this.openToast("Ya esta en tu favoritos");
-        return;
+      } else {
+        favoritesNotes.push(note);
+
+        localStorage.setItem("favoritesNotes", JSON.stringify(favoritesNotes));
+
+        this.openToast("Se agrego a favoritos");
       }
 
-      favoritesNotes.push(note);
-
-      localStorage.setItem("favoritesNotes", JSON.stringify(favoritesNotes));
-
-      this.openToast("Se agrego a favoritos");
+      this.resetSlides();
     },
     async openToast(message: string) {
       const toast = await toastController.create({
