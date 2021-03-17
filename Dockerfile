@@ -1,4 +1,9 @@
-FROM nginx:1.15.8-alpine
-LABEL version="1.0.0"
-ENV REFRESHED_AT=2019-12-02-1
-COPY public/index.html /usr/share/nginx/html/index.html
+FROM node:14-alpine as build-step
+RUN mkdir -p /app
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+COPY . /app
+RUN npm run build
+FROM nginx:1.17.1-alpine
+COPY --from=build-step /app/dist/ /usr/share/nginx/html
