@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="guardarNota()" id="container">
+  <form @submit.prevent="guardarNota()" class="ion-padding">
     <ion-item id="item">
       <ion-label position="floating">Titulo</ion-label>
       <ion-input v-model="titulo"></ion-input>
