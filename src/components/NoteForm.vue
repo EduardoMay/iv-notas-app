@@ -1,21 +1,17 @@
 <template>
-  <ion-page>
-    <ion-content>
-      <form @submit.prevent="guardarNota()" id="container">
-        <ion-item id="item">
-          <ion-label position="floating">Titulo</ion-label>
-          <ion-input v-model="titulo"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Descripción</ion-label>
-          <ion-textarea rows="10" v-model="nota"></ion-textarea>
-        </ion-item>
-        <ion-button expand="block" type="submit">
-          Guardar
-        </ion-button>
-      </form>
-    </ion-content>
-  </ion-page>
+  <form @submit.prevent="guardarNota()" id="container">
+    <ion-item id="item">
+      <ion-label position="floating">Titulo</ion-label>
+      <ion-input v-model="titulo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea rows="10" v-model="nota"></ion-textarea>
+    </ion-item>
+    <ion-button expand="block" type="submit">
+      Guardar
+    </ion-button>
+  </form>
 </template>
 
 <script lang="ts">
@@ -23,10 +19,8 @@ import {
   IonItem,
   IonLabel,
   IonTextarea,
-  IonContent,
   IonButton,
   toastController,
-  IonPage,
   IonInput
 } from "@ionic/vue";
 import { defineComponent } from "vue";
@@ -38,9 +32,7 @@ export default defineComponent({
     IonItem,
     IonLabel,
     IonTextarea,
-    IonContent,
     IonButton,
-    IonPage,
     IonInput
   },
   data() {

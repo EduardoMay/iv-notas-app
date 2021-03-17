@@ -6,6 +6,11 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="false">
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-title size="large">{{ titulo }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
       <div id="container">{{ nota }}</div>
     </ion-content>
   </ion-page>

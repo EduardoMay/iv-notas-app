@@ -5,7 +5,7 @@
         <ion-title>Agregar nueva nota</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="false">
+    <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Add note</ion-title>
