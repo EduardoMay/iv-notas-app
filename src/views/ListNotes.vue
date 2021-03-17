@@ -95,7 +95,6 @@ export default defineComponent({
       const notas: Array<any> = localStorage.notas
         ? JSON.parse(localStorage.notas)
         : [];
-      console.log(notas);
 
       this.notas = [...notas];
     },

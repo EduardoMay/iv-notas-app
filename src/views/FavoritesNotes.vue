@@ -3,18 +3,21 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Favoritos</ion-title>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/notes/list"></ion-back-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Favoritos</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <ion-list v-if="notes.length > 0">
         <ion-item-sliding v-for="(note, index) in notes" :key="index">
-          <ion-item>
+          <ion-item
+            @click="
+              () => {
+                router.push(`/notes/view/${note.id}`);
+              }
+            "
+          >
             <ion-label>{{ note.titulo }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
@@ -41,10 +44,13 @@ import {
   IonItemOption,
   IonIcon,
   IonLabel,
-  IonItem
+  IonItem,
+  IonButtons,
+  IonBackButton
 } from "@ionic/vue";
 import { trash } from "ionicons/icons";
 import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "FavoritesNotes",
@@ -60,11 +66,16 @@ export default defineComponent({
     IonItemOption,
     IonIcon,
     IonLabel,
-    IonItem
+    IonItem,
+    IonButtons,
+    IonBackButton
   },
   setup() {
+    const router = useRouter();
+
     return {
-      trash
+      trash,
+      router
     };
   },
   data() {
@@ -77,7 +88,6 @@ export default defineComponent({
       const favorites = localStorage.favoritesNotes
         ? JSON.parse(localStorage.favoritesNotes)
         : [];
-      console.log(favorites);
       this.notes = favorites;
     },
     remove(note: any): void {

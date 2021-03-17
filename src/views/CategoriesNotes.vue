@@ -3,15 +3,12 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Tab 3</ion-title>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/notes/list"></ion-back-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    </ion-content>
+    <ion-content :fullscreen="true"></ion-content>
   </ion-page>
 </template>
 
@@ -21,11 +18,21 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent
+  IonContent,
+  IonButtons,
+  IonBackButton
 } from "@ionic/vue";
 
 export default {
   name: "Tab3",
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  components: {
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonPage,
+    IonButtons,
+    IonBackButton
+  }
 };
 </script>

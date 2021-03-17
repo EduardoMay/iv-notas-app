@@ -3,14 +3,12 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Agregar nueva nota</ion-title>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/notes/list"></ion-back-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Add note</ion-title>
-        </ion-toolbar>
-      </ion-header>
       <note-form />
     </ion-content>
   </ion-page>
@@ -23,7 +21,9 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent
+  IonContent,
+  IonButtons,
+  IonBackButton
 } from "@ionic/vue";
 
 export default {
@@ -34,7 +34,9 @@ export default {
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent
+    IonContent,
+    IonButtons,
+    IonBackButton
   },
   setup() {
     return {};

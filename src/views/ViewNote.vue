@@ -3,6 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>{{ titulo }}</ion-title>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/notes/list"></ion-back-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="false">
@@ -22,7 +25,9 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent
+  IonContent,
+  IonButtons,
+  IonBackButton
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
@@ -34,7 +39,9 @@ export default defineComponent({
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent
+    IonContent,
+    IonButtons,
+    IonBackButton
   },
   data() {
     return {
