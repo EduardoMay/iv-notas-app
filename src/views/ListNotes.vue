@@ -6,11 +6,6 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Notas</ion-title>
-        </ion-toolbar>
-      </ion-header>
       <ion-list v-if="notas.length > 0" ref="listNotes">
         <ion-item-sliding v-for="(note, index) in notas" :key="index">
           <ion-item-options side="start">
