@@ -9,7 +9,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <form-label />
+      <form-label :allLabels="labels" @labels="lab" />
+      <list-labels :allLabels="labels" />
     </ion-content>
   </ion-page>
 </template>
@@ -27,6 +28,8 @@ import {
 import { defineComponent } from "vue";
 import { addCircle } from "ionicons/icons";
 import FormLabel from "@/components/FormLabel.vue";
+import ListLabels from "@/components/ListLabels.vue";
+import getLabels from "../helpers/getLabels";
 
 export default defineComponent({
   name: "Tab3",
@@ -38,10 +41,24 @@ export default defineComponent({
     IonPage,
     IonButtons,
     IonBackButton,
-    FormLabel
+    FormLabel,
+    ListLabels
+  },
+  data() {
+    return {
+      labels: [{}]
+    };
   },
   setup() {
     return { addCircle };
+  },
+  ionViewDidEnter() {
+    this.labels = getLabels();
+  },
+  methods: {
+    lab(values: Array<any>) {
+      this.labels = values;
+    }
   }
 });
 </script>
