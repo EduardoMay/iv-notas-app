@@ -2,13 +2,15 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 3</ion-title>
+        <ion-title>Etiquetas</ion-title>
         <ion-buttons slot="start">
           <ion-back-button default-href="/notes/list"></ion-back-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true"></ion-content>
+    <ion-content :fullscreen="true">
+      <form-label />
+    </ion-content>
   </ion-page>
 </template>
 
@@ -22,8 +24,11 @@ import {
   IonButtons,
   IonBackButton
 } from "@ionic/vue";
+import { defineComponent } from "vue";
+import { addCircle } from "ionicons/icons";
+import FormLabel from "@/components/FormLabel.vue";
 
-export default {
+export default defineComponent({
   name: "Tab3",
   components: {
     IonHeader,
@@ -32,7 +37,11 @@ export default {
     IonContent,
     IonPage,
     IonButtons,
-    IonBackButton
+    IonBackButton,
+    FormLabel
+  },
+  setup() {
+    return { addCircle };
   }
-};
+});
 </script>
