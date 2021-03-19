@@ -29,10 +29,9 @@ import { defineComponent } from "vue";
 import { addCircle } from "ionicons/icons";
 import FormLabel from "@/components/FormLabel.vue";
 import ListLabels from "@/components/ListLabels.vue";
-import getLabels from "../helpers/getLabels";
 
 export default defineComponent({
-  name: "Tab3",
+  name: "CategoriesNotes",
   components: {
     IonHeader,
     IonToolbar,
@@ -44,17 +43,8 @@ export default defineComponent({
     FormLabel,
     ListLabels
   },
-  data() {
-    return {
-      labels: [{}]
-    };
-  },
   setup() {
     return { addCircle };
-  },
-  ionViewDidEnter() {
-    this.labels = getLabels();
-  },
-  methods: {}
+  }
 });
 </script>

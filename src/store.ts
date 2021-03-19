@@ -1,11 +1,10 @@
 import { createStore } from "vuex";
+import { getLabels, saveLabel } from "./helpers/labels";
 
 export const store = createStore({
   state() {
     return {
-      notesLabels: localStorage.notesLabels
-        ? JSON.parse(localStorage.notesLabels)
-        : []
+      notesLabels: getLabels()
     };
   },
 
@@ -20,6 +19,8 @@ export const store = createStore({
   mutations: {
     addLabel(state: any, payload: any) {
       state.notesLabels = [...state.notesLabels, payload.label];
+
+      saveLabel(payload.label);
     }
   }
 });

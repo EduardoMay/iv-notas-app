@@ -38,6 +38,7 @@ import {
 import { checkmark, bookmark } from "ionicons/icons";
 import { useStore } from "vuex";
 import { defineComponent } from "vue";
+import { LabelInterface } from "@/interfaces/LabelInterface";
 
 export default defineComponent({
   name: "FormLabel",
@@ -63,16 +64,13 @@ export default defineComponent({
   },
   methods: {
     saveLabel(): void {
-      const label = { name: this.labelName, color: this.color };
-      const notesLabels: Array<any> = localStorage.notesLabels
-        ? JSON.parse(localStorage.notesLabels)
-        : [];
-      notesLabels.push(label);
+      if (this.labelName !== "") {
+        const label: LabelInterface = {
+          name: this.labelName,
+          color: this.color
+        };
 
-      if (label.name !== "") {
-        localStorage.setItem("notesLabels", JSON.stringify(notesLabels));
-
-        this.store.dispatch("addLabel", { label: label });
+        this.store.dispatch("addLabel", { label });
 
         this.labelName = "";
       }
