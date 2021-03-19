@@ -22,7 +22,7 @@
           </ion-item>
           <ion-item-options side="end">
             <ion-item-option @click="remove(note)" color="danger">
-              <ion-icon :icon="trash" />
+              <ion-icon :icon="trash" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>

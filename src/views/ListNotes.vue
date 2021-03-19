@@ -10,7 +10,7 @@
         <ion-item-sliding v-for="(note, index) in notas" :key="index">
           <ion-item-options side="start">
             <ion-item-option @click="favorite(note)" color="danger" expandable>
-              <ion-icon :icon="heart" :v-slot="'icon-only'" />
+              <ion-icon :icon="heart" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
           <ion-item :router-link="'/notes/view/' + note.id">
@@ -25,7 +25,7 @@
                 }
               "
             >
-              <ion-icon :icon="create" :v-slot="'icon-only'" />
+              <ion-icon :icon="create" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
