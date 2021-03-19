@@ -10,22 +10,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { IonList, IonItem, IonLabel, IonIcon } from "@ionic/vue";
 import { bookmark } from "ionicons/icons";
+import { useStore } from "vuex";
 
 export default defineComponent({
   name: "ListLabels",
   components: { IonList, IonItem, IonLabel, IonIcon },
-  emits: ["update:labels"],
-  props: { allLabels: Array },
   data() {
     return {
       labels: []
     };
   },
   setup() {
-    return { bookmark };
+    const store = useStore();
+
+    return { bookmark, value: computed(() => store.state.notesLabels) };
   },
   methods: {
     getLabels() {
@@ -34,7 +35,6 @@ export default defineComponent({
         : [];
 
       this.labels = labels;
-      this.$emit("update:labels", this.labels);
     }
   },
   created() {

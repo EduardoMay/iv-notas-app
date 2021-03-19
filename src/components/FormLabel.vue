@@ -36,6 +36,7 @@ import {
   IonCol
 } from "@ionic/vue";
 import { checkmark, bookmark } from "ionicons/icons";
+import { useStore } from "vuex";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -49,14 +50,13 @@ export default defineComponent({
     IonRow,
     IonCol
   },
-  emits: ["labels"],
-  props: {
-    allLabels: Array
-  },
   data() {
+    const store = useStore();
+
     return {
       color: "#00ff00",
-      labelName: ""
+      labelName: "",
+      store
     };
   },
   setup() {
@@ -72,7 +72,7 @@ export default defineComponent({
 
       if (label.name !== "") {
         localStorage.setItem("notesLabels", JSON.stringify(notesLabels));
-        this.$emit("labels", notesLabels);
+        this.store.dispatch("addLabel", { label: label });
         this.labelName = "";
       }
     }

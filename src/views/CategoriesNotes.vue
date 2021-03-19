@@ -9,8 +9,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <form-label :allLabels="labels" @labels="lab" />
-      <list-labels :allLabels="labels" />
+      <form-label />
+      <list-labels />
     </ion-content>
   </ion-page>
 </template>
@@ -55,10 +55,6 @@ export default defineComponent({
   ionViewDidEnter() {
     this.labels = getLabels();
   },
-  methods: {
-    lab(values: Array<any>) {
-      this.labels = values;
-    }
-  }
+  methods: {}
 });
 </script>
