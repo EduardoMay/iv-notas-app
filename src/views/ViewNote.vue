@@ -8,7 +8,7 @@
         </ion-buttons>
         <ion-buttons slot="end">
           <ion-button :router-link="'/notes/edit/' + id">
-            <ion-icon :icon="create" />
+            <ion-icon :icon="create" slot="icon-only" />
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -39,6 +39,7 @@ import {
 import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import { create } from "ionicons/icons";
+import { getNote } from "@/helpers/notes";
 
 export default defineComponent({
   name: "ViewNote",
@@ -67,14 +68,10 @@ export default defineComponent({
   },
   methods: {
     getNote(): void {
-      const notes: Array<any> = JSON.parse(localStorage.notas);
+      const note = getNote(Number(this.id));
 
-      const { titulo, nota } = notes.find(
-        (note) => note.id === Number(this.id)
-      );
-
-      this.titulo = titulo;
-      this.nota = nota;
+      this.titulo = note ? note?.titulo : "";
+      this.nota = note ? note?.nota : "";
     }
   },
   created() {

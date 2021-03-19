@@ -23,8 +23,12 @@ import {
   toastController,
   IonInput
 } from "@ionic/vue";
+import { useStore } from "vuex";
 import { defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { NoteInterface } from "@/interfaces/NoteInterface";
+import { types } from "@/types/types";
+import { getNote } from "@/helpers/notes";
 
 export default defineComponent({
   name: "NoteForm",
@@ -42,6 +46,7 @@ export default defineComponent({
     };
   },
   setup() {
+    const store = useStore();
     const router = useRouter();
     const route = useRoute();
     let { id } = route?.params;
@@ -50,44 +55,25 @@ export default defineComponent({
       id = "";
     }
 
-    return { router, id };
+    return { router, id, store };
   },
   methods: {
     guardarNota() {
       if (this.titulo !== "" && this.nota !== "") {
-        let notas: Array<any> = localStorage.notas
-          ? JSON.parse(localStorage.notas)
-          : [];
+        const note: NoteInterface = {
+          id: this.id === "" ? new Date().getTime() : Number(this.id),
+          titulo: this.titulo,
+          nota: this.nota
+        };
 
         if (this.id !== "") {
-          notas = notas.map((note) => {
-            if (note.id === this.id) {
-              note.titulo = this.titulo;
-            }
-
-            return note.id === Number(this.id)
-              ? { ...note, titulo: this.titulo, nota: this.nota }
-              : note;
-          });
-
-          localStorage.setItem("notas", JSON.stringify(notas));
+          this.store.dispatch(types.UPDATE_NOTE, { note });
         } else {
-          const nota: Array<any> = [
-            { id: new Date().getTime(), titulo: this.titulo, nota: this.nota }
-          ];
-
-          if (notas.length > 0) {
-            notas = [...notas, ...nota];
-
-            localStorage.setItem("notas", JSON.stringify(notas));
-
-            this.titulo = "";
-            this.nota = "";
-          } else {
-            localStorage.setItem("notas", JSON.stringify(nota));
-          }
+          this.store.dispatch(types.ADD_NOTE, { note });
         }
 
+        this.titulo = "";
+        this.nota = "";
         this.router.push("/notes/list");
         this.openToast();
       } else {
@@ -96,14 +82,10 @@ export default defineComponent({
     },
     getNote() {
       if (this.id !== "") {
-        const notes: Array<any> = JSON.parse(localStorage.notas);
+        const note = getNote(Number(this.id));
 
-        const { titulo, nota } = notes.find(
-          (note) => note.id === Number(this.id)
-        );
-
-        this.titulo = titulo;
-        this.nota = nota;
+        this.titulo = note ? note?.titulo : "";
+        this.nota = note ? note?.nota : "";
       }
     },
     async openToast() {

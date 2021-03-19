@@ -6,8 +6,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-list v-if="notas.length > 0" ref="listNotes">
-        <ion-item-sliding v-for="(note, index) in notas" :key="index">
+      <ion-list v-if="notes.length > 0" ref="listNotes">
+        <ion-item-sliding v-for="(note, index) in notes" :key="index">
           <ion-item-options side="start">
             <ion-item-option @click="favorite(note)" color="danger" expandable>
               <ion-icon :icon="heart" slot="icon-only" />
@@ -17,6 +17,9 @@
             <ion-label>{{ note.titulo }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
+            <ion-item-option @click="deleteNote(note.id)" color="danger">
+              <ion-icon :icon="trash" slot="icon-only" />
+            </ion-item-option>
             <ion-item-option
               @click="
                 () => {
@@ -50,9 +53,11 @@ import {
   toastController,
   IonIcon
 } from "@ionic/vue";
-import { heart, create } from "ionicons/icons";
-import { defineComponent, ref } from "vue";
+import { heart, create, trash } from "ionicons/icons";
+import { useStore } from "vuex";
+import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
+import { types } from "@/types/types";
 
 export default defineComponent({
   name: "ListsNotes",
@@ -70,12 +75,8 @@ export default defineComponent({
     IonItemOption,
     IonIcon
   },
-  data() {
-    return {
-      notas: [{ titulo: "", nota: "" }]
-    };
-  },
   setup() {
+    const store = useStore();
     const router = useRouter();
     const listNotes = ref();
 
@@ -83,16 +84,18 @@ export default defineComponent({
       listNotes.value.$el.closeSlidingItems();
     };
 
-    return { heart, router, create, resetSlides, listNotes };
+    return {
+      heart,
+      router,
+      trash,
+      create,
+      resetSlides,
+      listNotes,
+      store,
+      notes: computed(() => store.state.notes)
+    };
   },
   methods: {
-    obtenerNotas(): void {
-      const notas: Array<any> = localStorage.notas
-        ? JSON.parse(localStorage.notas)
-        : [];
-
-      this.notas = [...notas];
-    },
     favorite(note: any): void {
       const favoritesNotes: Array<any> = localStorage.favoritesNotes
         ? JSON.parse(localStorage.favoritesNotes)
@@ -112,20 +115,18 @@ export default defineComponent({
 
       this.resetSlides();
     },
+    deleteNote(id: number) {
+      this.store.dispatch(types.DELETE_NOTE, { id });
+    },
     async openToast(message: string) {
       const toast = await toastController.create({
         header: "Favoritos",
         message,
         duration: 2000
       });
+
       return toast.present();
     }
-  },
-  created() {
-    this.obtenerNotas();
-  },
-  ionViewDidEnter() {
-    this.obtenerNotas();
   }
 });
 </script>
