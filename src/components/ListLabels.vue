@@ -34,7 +34,6 @@ import {
 import { bookmark, trash } from "ionicons/icons";
 import { useStore } from "vuex";
 import { LabelInterface } from "@/interfaces/LabelInterface";
-import { store } from "@/store";
 
 export default defineComponent({
   name: "ListLabels",
