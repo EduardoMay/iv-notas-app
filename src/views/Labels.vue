@@ -31,7 +31,7 @@ import FormLabel from "@/components/FormLabel.vue";
 import ListLabels from "@/components/ListLabels.vue";
 
 export default defineComponent({
-  name: "CategoriesNotes",
+  name: "Labels",
   components: {
     IonHeader,
     IonToolbar,
