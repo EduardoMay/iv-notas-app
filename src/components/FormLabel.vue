@@ -66,6 +66,7 @@ export default defineComponent({
     saveLabel(): void {
       if (this.labelName !== "") {
         const label: LabelInterface = {
+          id: new Date().getTime(),
           name: this.labelName,
           color: this.color
         };

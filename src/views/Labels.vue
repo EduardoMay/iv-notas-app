@@ -26,7 +26,6 @@ import {
   IonBackButton
 } from "@ionic/vue";
 import { defineComponent } from "vue";
-import { addCircle } from "ionicons/icons";
 import FormLabel from "@/components/FormLabel.vue";
 import ListLabels from "@/components/ListLabels.vue";
 
@@ -42,9 +41,6 @@ export default defineComponent({
     IonBackButton,
     FormLabel,
     ListLabels
-  },
-  setup() {
-    return { addCircle };
   }
 });
 </script>

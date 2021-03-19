@@ -9,3 +9,9 @@ export const saveLabel = (label: LabelInterface): void => {
 
   localStorage.setItem("notesLabels", JSON.stringify(labels));
 };
+
+export const deleteLabel = (label: LabelInterface): void => {
+  const labels = getLabels().filter((e) => e.id !== label.id);
+
+  localStorage.setItem("notesLabels", JSON.stringify(labels));
+};

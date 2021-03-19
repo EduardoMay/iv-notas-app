@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
-import { getLabels, saveLabel } from "./helpers/labels";
+import { deleteLabel, getLabels, saveLabel } from "./helpers/labels";
+import { LabelInterface } from "@/interfaces/LabelInterface";
 
 export const store = createStore({
   state() {
@@ -12,6 +13,9 @@ export const store = createStore({
   actions: {
     addLabel({ commit }, payload) {
       commit("addLabel", payload);
+    },
+    deleteLabel({ commit }, payload) {
+      commit("deleteLabel", payload);
     }
   },
 
@@ -21,6 +25,13 @@ export const store = createStore({
       state.notesLabels = [...state.notesLabels, payload.label];
 
       saveLabel(payload.label);
+    },
+    deleteLabel(state: any, payload: any): void {
+      state.notesLabels = state.notesLabels.filter(
+        (e: LabelInterface) => e.id !== payload.label.id
+      );
+
+      deleteLabel(payload.label);
     }
   }
 });
