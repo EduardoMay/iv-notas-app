@@ -9,19 +9,19 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-list v-if="notes.length > 0">
-        <ion-item-sliding v-for="(note, index) in notes" :key="index">
+      <ion-list v-if="favorites.length > 0">
+        <ion-item-sliding v-for="(favorite, index) in favorites" :key="index">
           <ion-item
             @click="
               () => {
-                router.push(`/notes/view/${note.id}`);
+                router.push(`/notes/view/${favorite.id}`);
               }
             "
           >
-            <ion-label>{{ note.titulo }}</ion-label>
+            <ion-label>{{ favorite.titulo }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option @click="remove(note)" color="danger">
+            <ion-item-option @click="remove(favorite.id)" color="danger">
               <ion-icon :icon="trash" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
@@ -49,8 +49,10 @@ import {
   IonBackButton
 } from "@ionic/vue";
 import { trash } from "ionicons/icons";
-import { defineComponent } from "vue";
+import { useStore } from "vuex";
+import { computed, defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { types } from "@/types/types";
 
 export default defineComponent({
   name: "FavoritesNotes",
@@ -71,38 +73,20 @@ export default defineComponent({
     IonBackButton
   },
   setup() {
+    const store = useStore();
     const router = useRouter();
 
     return {
       trash,
-      router
-    };
-  },
-  data() {
-    return {
-      notes: [{ id: "" }]
+      router,
+      store,
+      favorites: computed(() => store.state.favorites)
     };
   },
   methods: {
-    getFavorites(): void {
-      const favorites = localStorage.favoritesNotes
-        ? JSON.parse(localStorage.favoritesNotes)
-        : [];
-      this.notes = favorites;
-    },
-    remove(note: any): void {
-      const favorites: Array<any> = this.notes.filter((n) => n.id !== note.id);
-
-      localStorage.setItem("favoritesNotes", JSON.stringify(favorites));
-
-      this.notes = favorites;
+    remove(id: number): void {
+      this.store.dispatch(types.DELETE_FAVORITE, { id });
     }
-  },
-  created() {
-    this.getFavorites();
-  },
-  ionViewDidEnter() {
-    this.getFavorites();
   }
 });
 </script>

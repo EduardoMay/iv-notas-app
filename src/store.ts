@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 
+import { addFavorite, deleteFavorite, getFavorites } from "@/helpers/favorites";
 import { deleteLabel, getLabels, saveLabel } from "@/helpers/labels";
 import { addNote, deleteNote, getNotes, updateNote } from "@/helpers/notes";
 import { LabelInterface } from "@/interfaces/LabelInterface";
@@ -10,7 +11,8 @@ export const store = createStore({
   state() {
     return {
       notesLabels: getLabels(),
-      notes: getNotes()
+      notes: getNotes(),
+      favorites: getFavorites()
     };
   },
 
@@ -36,6 +38,14 @@ export const store = createStore({
     },
     deleteLabel({ commit }, payload) {
       commit(types.DELETE_LABEL, payload);
+    },
+
+    // FAVORITES
+    addFavorite({ commit }, payload) {
+      commit(types.ADD_FAVORITE, payload);
+    },
+    deleteFavorite({ commit }, payload) {
+      commit(types.DELETE_FAVORITE, payload);
     }
   },
 
@@ -82,6 +92,20 @@ export const store = createStore({
       );
 
       deleteLabel(payload.label);
+    },
+
+    // FAVORITES
+    [types.ADD_FAVORITE](state: any, payload: any): void {
+      state.favorites = [...state.favorites, payload.favorite];
+
+      addFavorite(payload.favorite);
+    },
+    [types.DELETE_FAVORITE](state: any, payload: any): void {
+      state.favorites = state.favorites.filter(
+        (e: NoteInterface) => e.id !== payload.id
+      );
+
+      deleteFavorite(payload.id);
     }
   }
 });

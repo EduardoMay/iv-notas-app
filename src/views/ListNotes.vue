@@ -58,6 +58,8 @@ import { useStore } from "vuex";
 import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { types } from "@/types/types";
+import { getFavorites } from "@/helpers/favorites";
+import { NoteInterface } from "@/interfaces/NoteInterface";
 
 export default defineComponent({
   name: "ListsNotes",
@@ -96,19 +98,15 @@ export default defineComponent({
     };
   },
   methods: {
-    favorite(note: any): void {
-      const favoritesNotes: Array<any> = localStorage.favoritesNotes
-        ? JSON.parse(localStorage.favoritesNotes)
-        : [];
+    favorite(note: NoteInterface): void {
+      const favorite = getFavorites().find(
+        (favorite) => favorite.id === note.id
+      );
 
-      const obj = favoritesNotes.find((favorite) => favorite.id === note.id);
-
-      if (obj) {
+      if (favorite) {
         this.openToast("Ya esta en tu favoritos");
       } else {
-        favoritesNotes.push(note);
-
-        localStorage.setItem("favoritesNotes", JSON.stringify(favoritesNotes));
+        this.store.dispatch(types.ADD_FAVORITE, { favorite: note });
 
         this.openToast("Se agrego a favoritos");
       }

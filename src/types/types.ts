@@ -10,5 +10,10 @@ export const types = {
   ADD_LABEL: "addLabel",
   GET_LABELS: "getLabels",
   DELETE_LABEL: "deleteLabel",
-  UPDATE_LABEL: "updateLabel"
+  UPDATE_LABEL: "updateLabel",
+
+  // Favorites
+  GET_FAVORITES: "getFavorites",
+  ADD_FAVORITE: "addFavorite",
+  DELETE_FAVORITE: "deleteFavorite"
 };
