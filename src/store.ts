@@ -11,15 +11,14 @@ export const store = createStore({
 
   // ACTIONS (asynchronous)
   actions: {
-    addLabel({ commit }) {
-      commit("addLabel");
+    addLabel({ commit }, payload) {
+      commit("addLabel", payload);
     }
   },
 
   // MUTATIONS (set the state)
   mutations: {
     addLabel(state: any, payload: any) {
-      console.log(payload);
       state.notesLabels = [...state.notesLabels, payload.label];
     }
   }

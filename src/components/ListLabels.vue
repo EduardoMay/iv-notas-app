@@ -18,30 +18,10 @@ import { useStore } from "vuex";
 export default defineComponent({
   name: "ListLabels",
   components: { IonList, IonItem, IonLabel, IonIcon },
-  data() {
-    return {
-      labels: []
-    };
-  },
   setup() {
     const store = useStore();
 
-    return { bookmark, value: computed(() => store.state.notesLabels) };
-  },
-  methods: {
-    getLabels() {
-      const labels = localStorage.notesLabels
-        ? JSON.parse(localStorage.notesLabels)
-        : [];
-
-      this.labels = labels;
-    }
-  },
-  created() {
-    this.getLabels();
-  },
-  ionViewDidEnter() {
-    this.getLabels();
+    return { bookmark, labels: computed(() => store.state.notesLabels) };
   }
 });
 </script>

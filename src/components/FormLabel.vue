@@ -51,16 +51,15 @@ export default defineComponent({
     IonCol
   },
   data() {
-    const store = useStore();
-
     return {
       color: "#00ff00",
-      labelName: "",
-      store
+      labelName: ""
     };
   },
   setup() {
-    return { checkmark, bookmark };
+    const store = useStore();
+
+    return { checkmark, bookmark, store };
   },
   methods: {
     saveLabel(): void {
@@ -72,7 +71,9 @@ export default defineComponent({
 
       if (label.name !== "") {
         localStorage.setItem("notesLabels", JSON.stringify(notesLabels));
+
         this.store.dispatch("addLabel", { label: label });
+
         this.labelName = "";
       }
     }
