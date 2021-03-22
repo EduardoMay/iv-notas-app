@@ -1,14 +1,29 @@
 <template>
   <form @submit.prevent="guardarNota()" class="ion-padding">
-    <ion-item id="item">
+    <ion-item class="ion-margin-top">
       <ion-label position="floating">Titulo</ion-label>
       <ion-input v-model="titulo"></ion-input>
     </ion-item>
-    <ion-item>
+
+    <ion-item class="ion-margin-top">
       <ion-label position="floating">Descripción</ion-label>
       <ion-textarea rows="10" v-model="nota"></ion-textarea>
     </ion-item>
-    <ion-button expand="block" type="submit">
+
+    <ion-item class="ion-margin-top" v-if="labels.length > 0">
+      <ion-label>Etiqueta</ion-label>
+      <ion-select value="labels" interface="action-sheet" cancel-text="Salir">
+        <ion-select-option
+          v-for="label in labels"
+          :key="label.id"
+          :value="label.id"
+        >
+          <span :style="{ color: label.color }">{{ label.name }}</span>
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button class="ion-margin-top" expand="block" type="submit">
       Guardar
     </ion-button>
   </form>
@@ -21,14 +36,17 @@ import {
   IonTextarea,
   IonButton,
   toastController,
-  IonInput
+  IonInput,
+  IonSelect,
+  IonSelectOption
 } from "@ionic/vue";
 import { useStore } from "vuex";
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { NoteInterface } from "@/interfaces/NoteInterface";
 import { types } from "@/types/types";
 import { getNote } from "@/helpers/notes";
+import { bookmark } from "ionicons/icons";
 
 export default defineComponent({
   name: "NoteForm",
@@ -37,7 +55,9 @@ export default defineComponent({
     IonLabel,
     IonTextarea,
     IonButton,
-    IonInput
+    IonInput,
+    IonSelect,
+    IonSelectOption
   },
   data() {
     return {
@@ -55,7 +75,13 @@ export default defineComponent({
       id = "";
     }
 
-    return { router, id, store };
+    return {
+      router,
+      id,
+      store,
+      labels: computed(() => store.state.notesLabels),
+      bookmark
+    };
   },
   methods: {
     guardarNota() {
