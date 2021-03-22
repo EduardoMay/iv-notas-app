@@ -16,8 +16,8 @@ export const getNotes = (): Array<NoteInterface> => {
  *
  * @return  {NoteInterface | undefined}
  */
-export const getNote = (id: number): NoteInterface | undefined => {
-  const nota: NoteInterface | undefined = getNotes().find((e) => e.id === id);
+export const getNote = (id: number): NoteInterface => {
+  const nota: NoteInterface | any = getNotes().find((e) => e.id === id);
 
   return nota;
 };

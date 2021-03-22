@@ -12,7 +12,12 @@
 
     <ion-item class="ion-margin-top" v-if="labels.length > 0">
       <ion-label>Etiqueta</ion-label>
-      <ion-select value="labels" interface="action-sheet" cancel-text="Salir">
+      <ion-select
+        value="labels"
+        interface="action-sheet"
+        cancel-text="Salir"
+        v-model="label"
+      >
         <ion-select-option
           v-for="label in labels"
           :key="label.id"
@@ -23,7 +28,7 @@
       </ion-select>
     </ion-item>
 
-    <ion-button class="ion-margin-top" expand="block" type="submit">
+    <ion-button class="ion-margin-top" expand="full" type="submit">
       Guardar
     </ion-button>
   </form>
@@ -62,7 +67,8 @@ export default defineComponent({
   data() {
     return {
       titulo: "",
-      nota: ""
+      nota: "",
+      label: ""
     };
   },
   setup() {
@@ -89,7 +95,8 @@ export default defineComponent({
         const note: NoteInterface = {
           id: this.id === "" ? new Date().getTime() : Number(this.id),
           titulo: this.titulo,
-          nota: this.nota
+          nota: this.nota,
+          label: Number(this.label)
         };
 
         if (this.id !== "") {
@@ -110,8 +117,10 @@ export default defineComponent({
       if (this.id !== "") {
         const note = getNote(Number(this.id));
 
-        this.titulo = note ? note?.titulo : "";
-        this.nota = note ? note?.nota : "";
+        // TODO: REVISAR GUARDAR LABEL Y OBTENER
+        this.titulo = note?.titulo || "";
+        this.nota = note?.nota || "";
+        this.label = String(note?.label) || "";
       }
     },
     async openToast() {
