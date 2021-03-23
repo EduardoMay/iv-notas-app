@@ -16,8 +16,6 @@
           <ion-icon :icon="bookmark" style="color: #5260ff"></ion-icon>
         </ion-button>
       </ion-col>
-    </ion-row>
-    <ion-row>
       <ion-col>
         <ion-button color="light" @click="setColorLabel('#2dd36f')">
           <ion-icon :icon="bookmark" style="color: #2dd36f"></ion-icon>

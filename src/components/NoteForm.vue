@@ -13,7 +13,7 @@
     <ion-item class="ion-margin-top" v-if="labels.length > 0">
       <ion-label>Etiqueta</ion-label>
       <ion-select
-        value="labels"
+        :value="label"
         interface="action-sheet"
         cancel-text="Salir"
         v-model="label"
@@ -64,26 +64,31 @@ export default defineComponent({
     IonSelect,
     IonSelectOption
   },
-  data() {
-    return {
-      titulo: "",
-      nota: "",
-      label: ""
-    };
-  },
   setup() {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
     let { id } = route?.params;
+    let titulo = "";
+    let nota = "";
+    let label = 0;
 
     if (!id) {
       id = "";
+    } else {
+      const note = getNote(Number(id));
+
+      titulo = note?.titulo || "";
+      nota = note?.nota || "";
+      label = Number(note?.label) || 0;
     }
 
     return {
       router,
       id,
+      titulo,
+      nota,
+      label,
       store,
       labels: computed(() => store.state.notesLabels),
       bookmark
@@ -101,28 +106,21 @@ export default defineComponent({
 
         if (this.id !== "") {
           this.store.dispatch(types.UPDATE_NOTE, { note });
+          this.router.push(`/notes/view/${this.id}`);
         } else {
           this.store.dispatch(types.ADD_NOTE, { note });
+          this.router.push("/notes/list");
         }
 
         this.titulo = "";
         this.nota = "";
-        this.router.push("/notes/list");
+
         this.openToast();
       } else {
         console.log("Titulo y nota están vacíos");
       }
     },
-    getNote() {
-      if (this.id !== "") {
-        const note = getNote(Number(this.id));
 
-        // TODO: REVISAR GUARDAR LABEL Y OBTENER
-        this.titulo = note?.titulo || "";
-        this.nota = note?.nota || "";
-        this.label = String(note?.label) || "";
-      }
-    },
     async openToast() {
       const toast = await toastController.create({
         header: "Nota",
@@ -131,12 +129,6 @@ export default defineComponent({
       });
       return toast.present();
     }
-  },
-  ionViewDidEnter() {
-    this.getNote();
-  },
-  created() {
-    this.getNote();
   }
 });
 </script>

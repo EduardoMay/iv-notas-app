@@ -47,6 +47,7 @@ export const updateNote = (note: NoteInterface): void => {
     if (n.id === note.id) {
       n.titulo = note.titulo;
       n.nota = note.nota;
+      n.label = note.label;
     }
 
     return n;
