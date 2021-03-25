@@ -13,7 +13,8 @@ export const store = createStore({
 			notesLabels: getLabels(),
 			notes: getNotes(),
 			colorLabel: "#92949c",
-			favorites: getFavorites()
+			favorites: getFavorites(),
+			labelSelected: ""
 		};
 	},
 
@@ -96,6 +97,9 @@ export const store = createStore({
 		},
 		[types.SET_COLOR_LABEL](state: any, payload: any): void {
 			state.colorLabel = payload.color;
+		},
+		[types.LABEL_SELECTED](state: any, payload: any): void{
+			state.labelSelected = payload.id;
 		},
 
 		// FAVORITES

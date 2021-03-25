@@ -12,6 +12,7 @@ export const types = {
   DELETE_LABEL: "deleteLabel",
   UPDATE_LABEL: "updateLabel",
   SET_COLOR_LABEL: "setColorLabel",
+  LABEL_SELECTED: "labelSelected",
 
   // Favorites
   GET_FAVORITES: "getFavorites",

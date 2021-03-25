@@ -1,12 +1,12 @@
 <template>
   <ion-list v-if="labels.length > 0" ref="listLabels">
-    <ion-item-sliding v-for="(label, index) in labels" :key="index">
+    <ion-item-sliding v-for="label in labels" :key="label.id">
       <ion-item-options side="start">
         <ion-item-option @click="remove(label)" color="danger" expandable>
           <ion-icon :icon="trash" slot="icon-only" />
         </ion-item-option>
       </ion-item-options>
-      <ion-item>
+      <ion-item @click="selected(label.id)">
         <ion-label>
           <ion-icon
             slot="icon-only"
@@ -34,6 +34,7 @@ import {
 import { bookmark, trash } from "ionicons/icons";
 import { useStore } from "vuex";
 import { LabelInterface } from "@/interfaces/LabelInterface";
+import { types } from "@/types/types";
 
 export default defineComponent({
   name: "ListLabels",
@@ -67,6 +68,11 @@ export default defineComponent({
     remove(label: LabelInterface) {
       this.store.dispatch("deleteLabel", { label });
       this.resetSlides();
+    },
+    selected(id: number) {
+      this.$store.commit(types.LABEL_SELECTED, {id})
+      
+      console.log(this.store.state.labelSelected);
     }
   }
 });
