@@ -40,6 +40,20 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/AddNote.vue")
       }
     ]
+  },
+  {
+    path: "/labels/",
+    component: Tabs,
+    children: [
+      {
+        path: "",
+        redirect: "/notes/list"
+      },
+      {
+        path: "label/:id",
+        component: () => import("@/views/labels/ListLabels.vue")
+      }
+    ]
   }
 ];
 
