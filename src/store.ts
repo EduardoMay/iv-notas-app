@@ -1,11 +1,16 @@
-import {createStore} from "vuex";
+import { createStore } from "vuex";
 
-import {addFavorite, deleteFavorite, getFavorites} from "@/helpers/favorites";
-import {deleteLabel, getLabels, saveLabel} from "@/helpers/labels";
-import {addNote, deleteNote, getNotes, updateNote} from "@/helpers/notes";
-import {LabelInterface} from "@/interfaces/LabelInterface";
-import {NoteInterface} from "@/interfaces/NoteInterface";
-import {types} from "@/types/types";
+import { addFavorite, deleteFavorite, getFavorites } from "@/helpers/favorites";
+import {
+	deleteLabel,
+	getLabelById,
+	getLabels,
+	saveLabel
+} from "@/helpers/labels";
+import { addNote, deleteNote, getNotes, updateNote } from "@/helpers/notes";
+import { LabelInterface } from "@/interfaces/LabelInterface";
+import { NoteInterface } from "@/interfaces/NoteInterface";
+import { types } from "@/types/types";
 
 export const store = createStore({
 	state() {
@@ -21,32 +26,32 @@ export const store = createStore({
 	// ACTIONS (asynchronous)
 	actions: {
 		// NOTES
-		getNotes({commit}): void {
+		getNotes({ commit }): void {
 			commit(types.GET_NOTES);
 		},
-		addNote({commit}, payload): void {
+		addNote({ commit }, payload): void {
 			commit(types.ADD_NOTE, payload);
 		},
-		updateNote({commit}, payload): void {
+		updateNote({ commit }, payload): void {
 			commit(types.UPDATE_NOTE, payload);
 		},
-		deleteNote({commit}, payload): void {
+		deleteNote({ commit }, payload): void {
 			commit(types.DELETE_NOTE, payload);
 		},
 
 		// LABELS
-		addLabel({commit}, payload) {
+		addLabel({ commit }, payload) {
 			commit(types.ADD_LABEL, payload);
 		},
-		deleteLabel({commit}, payload) {
+		deleteLabel({ commit }, payload) {
 			commit(types.DELETE_LABEL, payload);
 		},
 
 		// FAVORITES
-		addFavorite({commit}, payload) {
+		addFavorite({ commit }, payload) {
 			commit(types.ADD_FAVORITE, payload);
 		},
-		deleteFavorite({commit}, payload) {
+		deleteFavorite({ commit }, payload) {
 			commit(types.DELETE_FAVORITE, payload);
 		}
 	},
@@ -98,8 +103,9 @@ export const store = createStore({
 		[types.SET_COLOR_LABEL](state: any, payload: any): void {
 			state.colorLabel = payload.color;
 		},
-		[types.LABEL_SELECTED](state: any, payload: any): void{
+		[types.LABEL_SELECTED](state: any, payload: any): void {
 			state.labelSelected = payload.id;
+			state.colorLabel = getLabelById(payload.id)?.color;
 		},
 
 		// FAVORITES
@@ -121,10 +127,12 @@ export const store = createStore({
 	getters: {
 		getNotesByIdLabel: (state: any) => {
 			return state.notesLabels.map((label: LabelInterface) => {
-				label.count = state.notes.filter((note: NoteInterface) => note.label === label.id).length;
+				label.count = state.notes.filter(
+					(note: NoteInterface) => note.label === label.id
+				).length;
 
 				return label;
-			})
+			});
 		}
 	}
 });

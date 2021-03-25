@@ -70,9 +70,7 @@ export default defineComponent({
       this.resetSlides();
     },
     selected(id: number) {
-      this.$store.commit(types.LABEL_SELECTED, {id})
-      
-      console.log(this.store.state.labelSelected);
+      this.$store.commit(types.LABEL_SELECTED, { id });
     }
   }
 });
