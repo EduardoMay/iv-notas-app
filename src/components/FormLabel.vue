@@ -56,7 +56,6 @@ import { computed, defineComponent } from "vue";
 import { LabelInterface } from "@/interfaces/LabelInterface";
 import LabelsPopover from "./LabelsPopover.vue";
 import { types } from "@/types/types";
-import { getLabelById } from "@/helpers/labels";
 
 export default defineComponent({
 	name: "FormLabel",
@@ -78,7 +77,9 @@ export default defineComponent({
 			close,
 			store,
 			color: computed(() => store.state.colorLabel || ""),
-			label: computed(() => getLabelById(store.state.labelSelected))
+			label: computed(() =>
+				store.getters.getLabelById(store.state.labelSelected)
+			)
 		};
 	},
 	methods: {

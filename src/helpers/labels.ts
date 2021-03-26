@@ -9,21 +9,6 @@ export const getLabels = (): Array<LabelInterface> => {
 	return localStorage.notesLabels ? JSON.parse(localStorage.notesLabels) : [];
 };
 
-// TODO PASAR ESTAR FUNCIÓN EN LOS GETTER DEL STORE
-export const getLabelById = (id: number): LabelInterface => {
-	const label: LabelInterface = { id: 0, name: "", color: "#92949c" };
-
-	if (id === 0) return label;
-
-	const obj = _.find(getLabels(), { id });
-
-	if (obj) {
-		return obj;
-	} else {
-		return label;
-	}
-};
-
 export const saveLabel = (label: LabelInterface): void => {
 	const labels = [...getLabels(), label];
 

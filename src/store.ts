@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { createStore } from "vuex";
 
 import { addFavorite, deleteFavorite, getFavorites } from "@/helpers/favorites";
@@ -19,7 +20,7 @@ export const store = createStore({
 			notes: getNotes(),
 			colorLabel: "#92949c",
 			favorites: getFavorites(),
-			labelSelected: ""
+			labelSelected: 0
 		};
 	},
 
@@ -133,6 +134,19 @@ export const store = createStore({
 
 				return label;
 			});
+		},
+		getLabelById: (state: any) => (id: any) => {
+			const label: LabelInterface = { id: 0, name: "", color: "#92949c" };
+
+			if (id === 0) return label;
+
+			const obj = _.find(state.notesLabels, { id });
+
+			if (obj) {
+				return obj;
+			} else {
+				return label;
+			}
 		}
 	}
 });
