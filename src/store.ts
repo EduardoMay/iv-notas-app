@@ -6,7 +6,8 @@ import {
 	deleteLabel,
 	getLabelById,
 	getLabels,
-	saveLabel
+	saveLabel,
+	updateLabel
 } from "@/helpers/labels";
 import { addNote, deleteNote, getNotes, updateNote } from "@/helpers/notes";
 import { LabelInterface } from "@/interfaces/LabelInterface";
@@ -107,6 +108,13 @@ export const store = createStore({
 		[types.LABEL_SELECTED](state: any, payload: any): void {
 			state.labelSelected = payload.id;
 			state.colorLabel = getLabelById(payload.id)?.color;
+		},
+		[types.UPDATE_LABEL](state: any, payload): void {
+			updateLabel(payload.label);
+
+			state.notesLabels = getLabels();
+			state.colorLabel = "#92949c";
+			state.labelSelected = 0;
 		},
 
 		// FAVORITES

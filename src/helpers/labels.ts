@@ -71,3 +71,23 @@ export const deleteLabel = (label: LabelInterface): void => {
 export const selectNotesByIdLabel = (id: number): NoteInterface[] => {
 	return getNotes().filter((note) => note.label === id);
 };
+
+/**
+ * Updated Label
+ *
+ * @param   {LabelInterface}  label
+ *
+ * @return  {void}
+ */
+export const updateLabel = (label: LabelInterface): void => {
+	const labels: Array<LabelInterface> = getLabels().map((l) => {
+		if (l.id === label.id) {
+			l.name = label.name;
+			l.color = label.color;
+		}
+
+		return l;
+	});
+
+	localStorage.setItem("notesLabels", JSON.stringify(labels));
+};

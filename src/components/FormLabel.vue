@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="saveLabel" ref="anyName">
+	<form @submit.prevent="saveLabel">
 		<ion-grid>
 			<ion-row class="ion-align-items-center ion-justify-content-between">
 				<ion-col size="7" size-md="9">
@@ -30,6 +30,7 @@
 						color="danger"
 						@click="resetForm()"
 						type="button"
+						v-if="selected"
 					>
 						<ion-icon slot="icon-only" :icon="close"></ion-icon>
 					</ion-button>
@@ -71,6 +72,8 @@ export default defineComponent({
 	setup() {
 		const store = useStore();
 
+		console.log(store.state.labelSelected);
+
 		return {
 			checkmark,
 			bookmark,
@@ -79,7 +82,8 @@ export default defineComponent({
 			color: computed(() => store.state.colorLabel || ""),
 			label: computed(() =>
 				store.getters.getLabelById(store.state.labelSelected)
-			)
+			),
+			selected: computed(() => store.state.labelSelected !== 0)
 		};
 	},
 	methods: {
@@ -95,7 +99,7 @@ export default defineComponent({
 				};
 
 				if (this.store.state.labelSelected !== 0) {
-					console.log("Editar");
+					this.store.commit(types.UPDATE_LABEL, { label });
 				} else {
 					this.store.dispatch("addLabel", { label });
 
@@ -104,7 +108,7 @@ export default defineComponent({
 				}
 			}
 		},
-		async openPopover(ev: Event) {
+		async openPopover(ev: Event): Promise<void> {
 			const popover = await popoverController.create({
 				component: LabelsPopover,
 				cssClass: "my-custom-class",
@@ -114,7 +118,7 @@ export default defineComponent({
 
 			return popover.present();
 		},
-		resetForm() {
+		resetForm(): void {
 			this.store.state.labelSelected = 0;
 			this.label.name = "";
 			this.store.commit(types.SET_COLOR_LABEL, { color: "#92949c" });
