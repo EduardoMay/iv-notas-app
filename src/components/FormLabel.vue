@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="saveLabel()">
+	<form @submit.prevent="saveLabel" ref="anyName">
 		<ion-grid>
 			<ion-row class="ion-align-items-center ion-justify-content-between">
 				<ion-col size="7" size-md="9">
@@ -17,7 +17,7 @@
 				</ion-col>
 				<ion-col
 					size="3"
-					size-md="1"
+					size-md="2"
 					style="display: flex; justify-content:space-around"
 				>
 					<ion-button fill="clear" size="sm" type="submit">
@@ -83,7 +83,7 @@ export default defineComponent({
 		};
 	},
 	methods: {
-		saveLabel(): void {
+		saveLabel(event: any): void {
 			if (this.label.name !== "") {
 				const label: LabelInterface = {
 					id:
@@ -94,12 +94,14 @@ export default defineComponent({
 					color: this.color
 				};
 
-				console.log(label);
+				if (this.store.state.labelSelected !== 0) {
+					console.log("Editar");
+				} else {
+					this.store.dispatch("addLabel", { label });
 
-				// this.store.dispatch("addLabel", { label });
-
-				// this.label = { id: 0, name: "", color: "" };
-				// this.store.commit(types.SET_COLOR_LABEL, { color: "#92949c" });
+					event.target.reset();
+					this.resetForm();
+				}
 			}
 		},
 		async openPopover(ev: Event) {
@@ -114,8 +116,7 @@ export default defineComponent({
 		},
 		resetForm() {
 			this.store.state.labelSelected = 0;
-			// TODO REVISAR QUE SE LIMPIE EL FORMULARIO CUANDO CLICKED EN EL BOTÓN CANCELAR
-			console.log(this.label);
+			this.label.name = "";
 			this.store.commit(types.SET_COLOR_LABEL, { color: "#92949c" });
 		}
 	}
