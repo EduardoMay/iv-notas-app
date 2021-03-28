@@ -14,7 +14,7 @@
             </ion-item-option>
           </ion-item-options>
           <ion-item :router-link="'/notes/view/' + note.id">
-            <ion-label>{{ note.titulo }}</ion-label>
+            <ion-label>{{ note.title }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
             <ion-item-option @click="deleteNote(note.id)" color="danger">

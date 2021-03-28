@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ titulo }}</ion-title>
+        <ion-title>{{ title }}</ion-title>
         <ion-buttons slot="start">
           <ion-back-button default-href="/notes/list"></ion-back-button>
         </ion-buttons>
@@ -16,10 +16,10 @@
     <ion-content :fullscreen="false">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">{{ titulo }}</ion-title>
+          <ion-title size="large">{{ title }}</ion-title>
         </ion-toolbar>
       </ion-header>
-      <div id="container">{{ nota }}</div>
+      <div id="container">{{ description }}</div>
     </ion-content>
   </ion-page>
 </template>
@@ -56,8 +56,8 @@ export default defineComponent({
   },
   data() {
     return {
-      titulo: "",
-      nota: ""
+      title: "",
+      description: ""
     };
   },
   setup() {
@@ -70,8 +70,8 @@ export default defineComponent({
     getNote(): void {
       const note = getNote(Number(this.id));
 
-      this.titulo = note ? note?.titulo : "";
-      this.nota = note ? note?.nota : "";
+      this.title = note ? note?.title : "";
+      this.description = note ? note?.description : "";
     }
   },
   created() {

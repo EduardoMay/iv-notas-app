@@ -3,9 +3,6 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Favoritos</ion-title>
-        <ion-buttons slot="start">
-          <ion-back-button default-href="/notes/list"></ion-back-button>
-        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -18,7 +15,7 @@
               }
             "
           >
-            <ion-label>{{ favorite.titulo }}</ion-label>
+            <ion-label>{{ favorite.title }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
             <ion-item-option @click="remove(favorite.id)" color="danger">
@@ -45,8 +42,6 @@ import {
   IonIcon,
   IonLabel,
   IonItem,
-  IonButtons,
-  IonBackButton
 } from "@ionic/vue";
 import { trash } from "ionicons/icons";
 import { useStore } from "vuex";
@@ -69,8 +64,6 @@ export default defineComponent({
     IonIcon,
     IonLabel,
     IonItem,
-    IonButtons,
-    IonBackButton
   },
   setup() {
     const store = useStore();

@@ -17,27 +17,19 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "list",
-        component: () => import("@/views/ListNotes.vue")
+        component: () => import("@/views/notes/ListNotes.vue")
       },
       {
         path: "view/:id",
-        component: () => import("@/views/ViewNote.vue")
-      },
-      {
-        path: "favorites",
-        component: () => import("@/views/FavoritesNotes.vue")
-      },
-      {
-        path: "categories",
-        component: () => import("@/views/Labels.vue")
+        component: () => import("@/views/notes/ViewNote.vue")
       },
       {
         path: "add",
-        component: () => import("@/views/AddNote.vue")
+        component: () => import("@/views/notes/AddNote.vue")
       },
       {
         path: "edit/:id",
-        component: () => import("@/views/AddNote.vue")
+        component: () => import("@/views/notes/AddNote.vue")
       }
     ]
   },
@@ -47,11 +39,29 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "",
-        redirect: "/notes/list"
+        redirect: "/labels/list"
       },
       {
-        path: "label/:id",
+        path: "edit/:id",
         component: () => import("@/views/labels/ListLabels.vue")
+      },
+      {
+        path: "list",
+        component: () => import("@/views/labels/Labels.vue")
+      },
+    ]
+  },
+  {
+    path: "/favorites",
+    component: Tabs,
+    children: [
+      {
+        path: "",
+        redirect: "/favorites/list"
+      },
+      {
+        path: "list",
+        component: () => import("@/views/favorites/FavoritesNotes.vue")
       }
     ]
   }

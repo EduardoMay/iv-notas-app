@@ -1,13 +1,13 @@
 <template>
-  <form @submit.prevent="guardarNota()" class="ion-padding">
+  <form @submit.prevent="saveNote()" class="ion-padding">
     <ion-item class="ion-margin-top">
       <ion-label position="floating">Titulo</ion-label>
-      <ion-input v-model="titulo"></ion-input>
+      <ion-input v-model="title"></ion-input>
     </ion-item>
 
     <ion-item class="ion-margin-top">
       <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea rows="10" v-model="nota"></ion-textarea>
+      <ion-textarea rows="10" v-model="description"></ion-textarea>
     </ion-item>
 
     <ion-item class="ion-margin-top" v-if="labels.length > 0">
@@ -31,6 +31,10 @@
     <ion-button class="ion-margin-top" expand="full" type="submit">
       Guardar
     </ion-button>
+
+    <ion-button class="ion-margin-top" color="default" expand="full" type="button" router-link="/notes/list">
+      Cancelar
+    </ion-button>
   </form>
 </template>
 
@@ -45,16 +49,16 @@ import {
   IonSelect,
   IonSelectOption
 } from "@ionic/vue";
-import { useStore } from "vuex";
-import { computed, defineComponent } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { NoteInterface } from "@/interfaces/NoteInterface";
-import { types } from "@/types/types";
-import { getNote } from "@/helpers/notes";
-import { bookmark } from "ionicons/icons";
+import {useStore} from "vuex";
+import {computed, defineComponent} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {NoteInterface} from "@/interfaces/NoteInterface";
+import {types} from "@/types/types";
+import {getNote} from "@/helpers/notes";
+import {bookmark} from "ionicons/icons";
 
 export default defineComponent({
-  name: "NoteForm",
+  name: "FormNote",
   components: {
     IonItem,
     IonLabel,
@@ -68,9 +72,9 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    let { id } = route?.params;
-    let titulo = "";
-    let nota = "";
+    let {id} = route?.params;
+    let title = "";
+    let description = "";
     let label = 0;
 
     if (!id) {
@@ -78,16 +82,16 @@ export default defineComponent({
     } else {
       const note = getNote(Number(id));
 
-      titulo = note?.titulo || "";
-      nota = note?.nota || "";
+      title = note?.title || "";
+      description = note?.description || "";
       label = Number(note?.label) || 0;
     }
 
     return {
       router,
       id,
-      titulo,
-      nota,
+      title,
+      description,
       label,
       store,
       labels: computed(() => store.state.notesLabels),
@@ -95,36 +99,36 @@ export default defineComponent({
     };
   },
   methods: {
-    guardarNota() {
-      if (this.titulo !== "" && this.nota !== "") {
+    saveNote(): void {
+      if (this.title !== "") {
         const note: NoteInterface = {
           id: this.id === "" ? new Date().getTime() : Number(this.id),
-          titulo: this.titulo,
-          nota: this.nota,
+          title: this.title,
+          description: this.description,
           label: Number(this.label)
         };
 
         if (this.id !== "") {
-          this.store.dispatch(types.UPDATE_NOTE, { note });
-          this.router.push(`/notes/view/${this.id}`);
+          this.store.dispatch(types.UPDATE_NOTE, {note});
+          this.router.replace(`/notes/view/${this.id}`);
         } else {
-          this.store.dispatch(types.ADD_NOTE, { note });
-          this.router.push("/notes/list");
+          this.store.dispatch(types.ADD_NOTE, {note});
+          this.router.replace("/notes/list");
         }
 
-        this.titulo = "";
-        this.nota = "";
+        this.title = "";
+        this.description = "";
 
-        this.openToast();
+        this.openToast("Se ha guardado correctamente.");
       } else {
-        console.log("Titulo y nota están vacíos");
+        this.openToast("Agrega un titulo");
       }
     },
 
-    async openToast() {
+    async openToast(title: string): Promise<any> {
       const toast = await toastController.create({
         header: "Nota",
-        message: "Se ha guardado correctamente.",
+        message: title,
         duration: 2000
       });
       return toast.present();
@@ -132,11 +136,3 @@ export default defineComponent({
   }
 });
 </script>
-<style scope>
-#container {
-  margin-top: 1rem;
-}
-#item {
-  margin-bottom: 0.5rem;
-}
-</style>

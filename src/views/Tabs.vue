@@ -4,22 +4,22 @@
       <ion-tab-bar>
         <ion-tab-button tab="list" href="/notes/list">
           <ion-icon :icon="home" />
-          <ion-label>Home</ion-label>
+          <ion-label>Inicio</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="favorites" href="/notes/favorites">
+        <ion-tab-button tab="favorites" href="/favorites/list">
           <ion-icon :icon="heart" />
           <ion-label>Favoritos</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="categories" href="/notes/categories">
+        <ion-tab-button tab="labels" href="/labels/list">
           <ion-icon :icon="bookmark" />
           <ion-label>Etiquetas</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="add" href="/notes/add">
           <ion-icon :icon="create" />
-          <ion-label>Add</ion-label>
+          <ion-label>Nuevo</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

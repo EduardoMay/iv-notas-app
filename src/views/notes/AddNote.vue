@@ -2,44 +2,44 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Agregar nueva nota</ion-title>
-        <ion-buttons slot="start">
-          <ion-back-button default-href="/notes/list"></ion-back-button>
-        </ion-buttons>
+        <ion-title v-if="id === undefined">Agregar nueva nota</ion-title>
+        <ion-title v-else>Editar nota</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <note-form />
+      <form-note/>
     </ion-content>
   </ion-page>
 </template>
 
-<script>
-import NoteForm from "@/components/NoteForm.vue";
+<script lang="ts">
 import {
   IonPage,
   IonHeader,
   IonToolbar,
   IonTitle,
   IonContent,
-  IonButtons,
-  IonBackButton
 } from "@ionic/vue";
+import {useRoute} from "vue-router";
+import FormNote from "@/components/FormNote.vue";
 
 export default {
   name: "AddNote",
   components: {
-    NoteForm,
+    FormNote,
     IonPage,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonButtons,
-    IonBackButton
   },
   setup() {
-    return {};
+    const route = useRoute();
+    const { id } = route?.params;
+
+    return {
+      id
+    };
   }
 };
 </script>

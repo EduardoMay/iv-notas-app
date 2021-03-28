@@ -17,9 +17,9 @@ export const getNotes = (): Array<NoteInterface> => {
  * @return  {NoteInterface | undefined}
  */
 export const getNote = (id: number): NoteInterface => {
-  const nota: NoteInterface | any = getNotes().find((e) => e.id === id);
+  const note: NoteInterface | any = getNotes().find((e: NoteInterface) => e.id === id);
 
-  return nota;
+  return note;
 };
 
 /**
@@ -43,10 +43,10 @@ export const addNote = (note: NoteInterface): void => {
  * @return  {void}
  */
 export const updateNote = (note: NoteInterface): void => {
-  const notes: Array<NoteInterface> = getNotes().map((n) => {
+  const notes: Array<NoteInterface> = getNotes().map((n: NoteInterface) => {
     if (n.id === note.id) {
-      n.titulo = note.titulo;
-      n.nota = note.nota;
+      n.title = note.title;
+      n.description = note.description;
       n.label = note.label;
     }
 

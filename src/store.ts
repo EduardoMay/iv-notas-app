@@ -72,8 +72,8 @@ export const store = createStore({
 		[types.UPDATE_NOTE](state: any, payload: any) {
 			state.notes = state.notes.map((n: NoteInterface) => {
 				if (n.id === payload.note.id) {
-					n.titulo = payload.note.titulo;
-					n.nota = payload.note.nota;
+					n.title = payload.note.titulo;
+					n.description = payload.note.nota;
 				}
 
 				return n;

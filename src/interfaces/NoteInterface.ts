@@ -1,6 +1,6 @@
 export interface NoteInterface {
   id: number;
-  titulo: string;
-  nota: string;
+  title: string;
+  description: string;
   label?: number;
 }

@@ -8,7 +8,7 @@
       </ion-header>
       <ion-content>
         <ion-item>
-          <ion-label>Etiquetas</ion-label>
+          <ion-label>Etiquetas ({{ labels.length }})</ion-label>
         </ion-item>
         <ion-list>
           <ion-item
