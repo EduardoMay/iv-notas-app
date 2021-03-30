@@ -9,11 +9,6 @@ RUN npm install
 
 COPY . /app
 
-ENV VUE_APP_TESTING_1="1"
-ENV VUE_APP_TESTING_2=""
-
-COPY .env.example .env
-
 RUN npm run build
 
 FROM nginx:1.17.1-alpine
