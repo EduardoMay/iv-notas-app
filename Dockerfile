@@ -9,6 +9,8 @@ RUN npm install
 
 COPY . /app
 
+COPY .env.example .env
+
 RUN npm run build
 
 FROM nginx:1.17.1-alpine
