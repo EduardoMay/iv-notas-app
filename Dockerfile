@@ -9,9 +9,10 @@ RUN npm install
 
 COPY . /app
 
-ENV VUE_APP_TESTING_1=""
+ENV VUE_APP_TESTING_1="1"
 ENV VUE_APP_TESTING_2=""
-ENV VUE_APP_TESTING_3=""
+
+COPY .env.example .env
 
 RUN npm run build
 
