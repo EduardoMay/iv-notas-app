@@ -69,17 +69,17 @@ export const store = createStore({
 
 			addNote(payload.note);
 		},
-		[types.UPDATE_NOTE](state: any, payload: any) {
+		[types.UPDATE_NOTE](state: any, { note }: any) {
 			state.notes = state.notes.map((n: NoteInterface) => {
-				if (n.id === payload.note.id) {
-					n.title = payload.note.titulo;
-					n.description = payload.note.nota;
+				if (n.id === note.id) {
+					n.title = note.title;
+					n.description = note.description;
 				}
 
 				return n;
 			});
 
-			updateNote(payload.note);
+			updateNote(note);
 		},
 		[types.DELETE_NOTE](state: any, payload: any) {
 			state.notes = state.notes.filter(

@@ -69,10 +69,6 @@ export default defineComponent({
 		IonLabel
 	},
 	setup() {
-		console.log(process.env.VUE_APP_TESTING_1);
-		console.log(process.env.VUE_APP_TESTING_2);
-		console.log(process.env.VUE_APP_TESTING_3);
-		console.log(process.env);
 		const store = useStore();
 
 		return {
