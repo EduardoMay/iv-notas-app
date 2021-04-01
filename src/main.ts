@@ -24,13 +24,13 @@ import "@ionic/vue/css/display.css";
 import "./theme/variables.css";
 
 // vuex
-import { store } from "./store";
+import { store } from "./store/index";
 
 const app = createApp(App)
-  .use(store)
-  .use(IonicVue)
-  .use(router);
+	.use(store)
+	.use(IonicVue)
+	.use(router);
 
 router.isReady().then(() => {
-  app.mount("#app");
+	app.mount("#app");
 });

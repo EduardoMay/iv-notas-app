@@ -49,8 +49,8 @@ import {
 	IonIcon,
 	IonLabel
 } from "@ionic/vue";
-import { useStore } from "vuex";
-import { computed, defineComponent } from "vue";
+import { mapGetters } from "vuex";
+import { defineComponent } from "vue";
 import { bookmark } from "ionicons/icons";
 
 export default defineComponent({
@@ -69,14 +69,7 @@ export default defineComponent({
 		IonLabel
 	},
 	setup() {
-		console.log(process.env.VUE_APP_TESTING_1);
-		console.log(process.env.VUE_APP_TESTING_2);
-		console.log(process.env.VUE_APP_TESTING_3);
-		console.log(process.env);
-		const store = useStore();
-
 		return {
-			labels: computed(() => store.getters.getNotesByIdLabel),
 			bookmark
 		};
 	},
@@ -84,6 +77,11 @@ export default defineComponent({
 		openEnd() {
 			menuController.close("start");
 		}
+	},
+	computed: {
+		...mapGetters("labels", {
+			labels: "getNotesByIdLabel"
+		})
 	}
 });
 </script>
