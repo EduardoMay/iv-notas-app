@@ -1,5 +1,8 @@
 FROM node:14-alpine as build-step
 
+ENV VUE_APP_TESTING_1 = $TESTING_1
+ENV VUE_APP_TESTING_2 = TESTING_1
+
 RUN mkdir -p /app
 WORKDIR /app
 
