@@ -1,6 +1,6 @@
 export interface LabelInterface {
-	id: number;
-	name: string;
-	color: string;
-	count?: number;
+  id: number;
+  name: string;
+  color: string;
+  count?: number;
 }

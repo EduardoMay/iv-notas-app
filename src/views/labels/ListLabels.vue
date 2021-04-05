@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{label.name}}</ion-title>
+        <ion-title>{{ label.name }}</ion-title>
         <ion-buttons slot="start">
           <ion-back-button default-href="/notes/list"></ion-back-button>
         </ion-buttons>
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, ref} from "vue";
+import { computed, defineComponent, ref } from "vue";
 import {
   IonPage,
   IonHeader,

@@ -11,7 +11,7 @@ import { getNotes } from "./notes";
  * @return  {Array<LabelInterface>}
  */
 export const getLabels = (): Array<LabelInterface> => {
-	return localStorage.notesLabels ? JSON.parse(localStorage.notesLabels) : [];
+  return localStorage.notesLabels ? JSON.parse(localStorage.notesLabels) : [];
 };
 
 /**
@@ -22,17 +22,17 @@ export const getLabels = (): Array<LabelInterface> => {
  * @return  {LabelInterface}
  */
 export const getLabelById = (id: number): LabelInterface => {
-	const label: LabelInterface = { id: 0, name: "", color: "#92949c" };
+  const label: LabelInterface = { id: 0, name: "", color: "#92949c" };
 
-	if (id === 0) return label;
+  if (id === 0) return label;
 
-	const obj = _.find(getLabels(), { id });
+  const obj = _.find(getLabels(), { id });
 
-	if (obj) {
-		return obj;
-	} else {
-		return label;
-	}
+  if (obj) {
+    return obj;
+  } else {
+    return label;
+  }
 };
 
 /**
@@ -43,9 +43,9 @@ export const getLabelById = (id: number): LabelInterface => {
  * @return  {void}
  */
 export const saveLabel = (label: LabelInterface): void => {
-	const labels = [...getLabels(), label];
+  const labels = [...getLabels(), label];
 
-	localStorage.setItem("notesLabels", JSON.stringify(labels));
+  localStorage.setItem("notesLabels", JSON.stringify(labels));
 };
 
 /**
@@ -56,9 +56,9 @@ export const saveLabel = (label: LabelInterface): void => {
  * @return  {void}
  */
 export const deleteLabel = (label: LabelInterface): void => {
-	const labels = getLabels().filter((e) => e.id !== label.id);
+  const labels = getLabels().filter((e) => e.id !== label.id);
 
-	localStorage.setItem("notesLabels", JSON.stringify(labels));
+  localStorage.setItem("notesLabels", JSON.stringify(labels));
 };
 
 /**
@@ -69,7 +69,7 @@ export const deleteLabel = (label: LabelInterface): void => {
  * @return  {NoteInterface[]}
  */
 export const selectNotesByIdLabel = (id: number): NoteInterface[] => {
-	return getNotes().filter((note) => note.label === id);
+  return getNotes().filter((note) => note.label === id);
 };
 
 /**
@@ -80,14 +80,14 @@ export const selectNotesByIdLabel = (id: number): NoteInterface[] => {
  * @return  {void}
  */
 export const updateLabel = (label: LabelInterface): void => {
-	const labels: Array<LabelInterface> = getLabels().map((l) => {
-		if (l.id === label.id) {
-			l.name = label.name;
-			l.color = label.color;
-		}
+  const labels: Array<LabelInterface> = getLabels().map((l) => {
+    if (l.id === label.id) {
+      l.name = label.name;
+      l.color = label.color;
+    }
 
-		return l;
-	});
+    return l;
+  });
 
-	localStorage.setItem("notesLabels", JSON.stringify(labels));
+  localStorage.setItem("notesLabels", JSON.stringify(labels));
 };

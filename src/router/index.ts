@@ -48,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "list",
         component: () => import("@/views/labels/Labels.vue")
-      },
+      }
     ]
   },
   {
