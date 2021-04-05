@@ -13,6 +13,8 @@ RUN npm install
 
 COPY . /app
 
+COPY .env.stage .env
+
 RUN npm run build
 
 FROM nginx:1.17.1-alpine
