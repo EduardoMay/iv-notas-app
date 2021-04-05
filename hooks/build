@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t $IMAGE_NAME --build-arg VUE_APP_TESTING_1=$VUE_APP_TESTING_1 .
+docker build --build-arg VUE_APP_TESTING_1=$VUE_APP_TESTING_1 -f $DOCKERFILE_PATH -t $IMAGE_NAME .
