@@ -60,6 +60,7 @@ import { useRouter } from "vue-router";
 import { types } from "@/types/types";
 import { getFavorites } from "@/helpers/favorites";
 import { NoteInterface } from "@/interfaces/NoteInterface";
+import { testApi } from "@/services/notesService";
 
 export default defineComponent({
   name: "ListsNotes",
@@ -81,6 +82,8 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const listNotes = ref();
+
+    testApi();
 
     const resetSlides = () => {
       listNotes.value.$el.closeSlidingItems();
