@@ -1,13 +1,11 @@
-import axios from "axios";
+import Axios from "@/hooks/Axios";
 
-/**
- * test api
- * @return  Promise<any>
- */
-export const testApi = async (): Promise<any> => {
-  const url = process.env.VUE_APP_BASE_URL_API;
+export default class NotesService {
+  axios = new Axios();
 
-  const { data } = await axios.get(url);
+  public async getNotes(): Promise<any> {
+    const res = await this.axios.get("notes");
 
-  console.log(data);
-};
+    console.log(res);
+  }
+}
