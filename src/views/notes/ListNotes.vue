@@ -115,8 +115,8 @@ export default defineComponent({
 
       this.resetSlides();
     },
-    deleteNote(id: number) {
-      this.store.dispatch(types.DELETE_NOTE, { id });
+    async deleteNote(id: string): Promise<void> {
+      await this.store.dispatch(types.DELETE_NOTE, { id });
     },
     async openToast(message: string) {
       const toast = await toastController.create({

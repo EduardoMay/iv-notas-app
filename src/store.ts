@@ -9,7 +9,7 @@ import {
   saveLabel,
   updateLabel
 } from "@/helpers/labels";
-import { deleteNote, updateNote } from "@/helpers/notes";
+import { updateNote } from "@/helpers/notes";
 import { LabelInterface } from "@/interfaces/LabelInterface";
 import { NoteInterface } from "@/interfaces/NoteInterface";
 import { types } from "@/types/types";
@@ -85,12 +85,10 @@ export const store = createStore({
 
       updateNote(note);
     },
-    [types.DELETE_NOTE](state: any, payload: any) {
-      state.notes = state.notes.filter(
-        (e: NoteInterface) => e.id !== payload.id
-      );
+    async [types.DELETE_NOTE](state: any, payload: any) {
+      await noteService.deleteNote(payload.id);
 
-      deleteNote(payload.id);
+      state.notes = await noteService.getNotes();
     },
 
     // LABELS

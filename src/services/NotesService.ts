@@ -24,4 +24,10 @@ export default class NotesService {
 
     console.log(res);
   }
+
+  public async deleteNote(id: string): Promise<any> {
+    const res = await this.axios.delete("notes", id);
+
+    console.log(res);
+  }
 }
