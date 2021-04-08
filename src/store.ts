@@ -73,17 +73,10 @@ export const store = createStore({
       delete payload.note.id;
       noteService.saveNote(payload.note);
     },
-    [types.UPDATE_NOTE](state: any, { note }: any) {
-      state.notes = state.notes.map((n: NoteInterface) => {
-        if (n.id === note.id) {
-          n.title = note.title;
-          n.description = note.description;
-        }
+    async [types.UPDATE_NOTE](state: any, { note }: any) {
+      await noteService.update(note);
 
-        return n;
-      });
-
-      updateNote(note);
+      state.notes = await noteService.getNotes();
     },
     async [types.DELETE_NOTE](state: any, payload: any) {
       await noteService.deleteNote(payload.id);

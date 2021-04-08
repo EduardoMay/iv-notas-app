@@ -30,4 +30,12 @@ export default class NotesService {
 
     console.log(res);
   }
+
+  public async update(note: NoteInterface): Promise<any> {
+    const { id } = note;
+
+    const res = await this.axios.put("notes", String(id), note);
+
+    console.log(res);
+  }
 }

@@ -27,4 +27,12 @@ export default class Axios {
   public async delete(endpoint: string, id: string): Promise<AxiosResponse> {
     return await axios.delete(`${this.URL_API}/${endpoint}/${id}`);
   }
+
+  public async put(
+    endpoint: string,
+    id: string,
+    data: NoteInterface
+  ): Promise<AxiosResponse> {
+    return await axios.put(`${this.URL_API}/${endpoint}/${id}`, data);
+  }
 }
