@@ -70,8 +70,6 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    console.log(process.env);
-    console.log(process.env.VUE_APP_TESTING_2);
 
     return {
       labels: computed(() => store.getters.getNotesByIdLabel),
