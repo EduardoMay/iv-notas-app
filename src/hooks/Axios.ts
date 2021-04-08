@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
+import { NoteInterface } from "@/interfaces/NoteInterface";
+
 export default class Axios {
   readonly URL_API = process.env.VUE_APP_BASE_URL_API;
 
@@ -9,12 +11,16 @@ export default class Axios {
     };
   }
 
-  public async get(
-    endpoint: string,
-    params: object = {}
-  ): Promise<AxiosResponse> {
-    const res = await axios.get(`${this.URL_API}/${endpoint}`);
+  public async get(endpoint: string, params = {}): Promise<AxiosResponse> {
+    return await axios.get(`${this.URL_API}/${endpoint}`, {
+      params
+    });
+  }
 
-    return res;
+  public async post(
+    endpoint = "",
+    body: NoteInterface
+  ): Promise<AxiosResponse> {
+    return await axios.post(`${this.URL_API}/${endpoint}`, body);
   }
 }

@@ -108,7 +108,6 @@ export default defineComponent({
     saveNote(): void {
       if (this.title !== "") {
         const note: NoteInterface = {
-          id: this.id === "" ? new Date().getTime() : Number(this.id),
           title: this.title,
           description: this.description,
           label: Number(this.label)

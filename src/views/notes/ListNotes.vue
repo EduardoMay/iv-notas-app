@@ -13,18 +13,18 @@
               <ion-icon :icon="heart" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
-          <ion-item :router-link="'/notes/view/' + note.id">
+          <ion-item :router-link="'/notes/view/' + note._id">
             <ion-label>{{ note.title }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option @click="deleteNote(note.id)" color="danger">
+            <ion-item-option @click="deleteNote(note._id)" color="danger">
               <ion-icon :icon="trash" slot="icon-only" />
             </ion-item-option>
             <ion-item-option
               @click="
                 () => {
                   resetSlides();
-                  router.push(`/notes/edit/${note.id}`);
+                  router.push(`/notes/edit/${note._id}`);
                 }
               "
             >
@@ -81,6 +81,8 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const listNotes = ref();
+
+    store.commit(types.GET_NOTES);
 
     const resetSlides = () => {
       listNotes.value.$el.closeSlidingItems();

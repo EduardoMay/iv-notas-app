@@ -9,16 +9,19 @@ import {
   saveLabel,
   updateLabel
 } from "@/helpers/labels";
-import { addNote, deleteNote, getNotes, updateNote } from "@/helpers/notes";
+import { deleteNote, updateNote } from "@/helpers/notes";
 import { LabelInterface } from "@/interfaces/LabelInterface";
 import { NoteInterface } from "@/interfaces/NoteInterface";
 import { types } from "@/types/types";
+import NotesService from "@/services/NotesService";
+
+const noteService = new NotesService();
 
 export const store = createStore({
   state() {
     return {
       notesLabels: getLabels(),
-      notes: getNotes(),
+      notes: [],
       colorLabel: "#92949c",
       favorites: getFavorites(),
       labelSelected: 0
@@ -61,13 +64,14 @@ export const store = createStore({
   // MUTATIONS (set the state)
   mutations: {
     // NOTES
-    [types.GET_NOTES](state: any) {
-      state.notes = getNotes();
+    async [types.GET_NOTES](state: any) {
+      state.notes = await noteService.getNotes();
     },
     [types.ADD_NOTE](state: any, payload) {
       state.notes = [...state.notes, payload.note];
 
-      addNote(payload.note);
+      delete payload.note.id;
+      noteService.saveNote(payload.note);
     },
     [types.UPDATE_NOTE](state: any, { note }: any) {
       state.notes = state.notes.map((n: NoteInterface) => {
@@ -155,6 +159,9 @@ export const store = createStore({
       } else {
         return label;
       }
+    },
+    getNoteBydId: (state: any) => async (id: string) => {
+      return await noteService.getNoteById(id);
     }
   }
 });

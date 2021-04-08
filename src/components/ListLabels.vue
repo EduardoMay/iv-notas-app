@@ -35,7 +35,6 @@ import { bookmark, trash } from "ionicons/icons";
 import { useStore } from "vuex";
 import { LabelInterface } from "@/interfaces/LabelInterface";
 import { types } from "@/types/types";
-import NotesService from "@/services/NotesService";
 
 export default defineComponent({
   name: "ListLabels",
@@ -51,9 +50,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const listLabels = ref();
-    const notesService = new NotesService();
-
-    notesService.getNotes();
 
     const resetSlides = () => {
       listLabels.value.$el.closeSlidingItems();

@@ -39,7 +39,6 @@ import {
 import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import { create } from "ionicons/icons";
-import { getNote } from "@/helpers/notes";
 
 export default defineComponent({
   name: "ViewNote",
@@ -67,8 +66,8 @@ export default defineComponent({
     return { id, create };
   },
   methods: {
-    getNote(): void {
-      const note = getNote(Number(this.id));
+    async getNote(): Promise<void> {
+      const note = await this.$store.getters.getNoteBydId(this.id);
 
       this.title = note ? note?.title : "";
       this.description = note ? note?.description : "";
