@@ -24,7 +24,7 @@
               @click="
                 () => {
                   resetSlides();
-                  router.push(`/notes/edit/${note._id}`);
+                  router.replace(`/notes/edit/${note._id}`);
                 }
               "
             >

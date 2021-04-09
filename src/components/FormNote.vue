@@ -34,10 +34,14 @@
 
     <ion-button
       class="ion-margin-top"
-      color="default"
+      color="light"
       expand="full"
       type="button"
-      router-link="/notes/list"
+      @click="
+        () => {
+          router.replace('/notes/list');
+        }
+      "
     >
       Cancelar
     </ion-button>
@@ -60,7 +64,6 @@ import { computed, defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { NoteInterface } from "@/interfaces/NoteInterface";
 import { types } from "@/types/types";
-import { getNote } from "@/helpers/notes";
 import { bookmark } from "ionicons/icons";
 
 export default defineComponent({
@@ -74,7 +77,7 @@ export default defineComponent({
     IonSelect,
     IonSelectOption
   },
-  setup() {
+  async setup() {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
@@ -86,7 +89,7 @@ export default defineComponent({
     if (!id) {
       id = "";
     } else {
-      const note = getNote(Number(id));
+      const note = await store.getters.getNoteBydId(id);
 
       title = note?.title || "";
       description = note?.description || "";
@@ -108,6 +111,7 @@ export default defineComponent({
     saveNote(): void {
       if (this.title !== "") {
         const note: NoteInterface = {
+          id: this.id ? String(this.id) : "",
           title: this.title,
           description: this.description,
           label: Number(this.label)

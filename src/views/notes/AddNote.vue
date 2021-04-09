@@ -7,7 +7,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <form-note />
+      <Suspense>
+        <form-note :values="id" />
+      </Suspense>
     </ion-content>
   </ion-page>
 </template>
