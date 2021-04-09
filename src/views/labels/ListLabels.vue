@@ -61,7 +61,7 @@ import {
 } from "@ionic/vue";
 import { useRoute } from "vue-router";
 import { getLabelById, selectNotesByIdLabel } from "@/helpers/labels";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Note } from "@/interfaces/Note";
 import { getFavorites } from "@/helpers/favorites";
 import { useStore } from "vuex";
 import { types } from "@/types/types";
@@ -107,7 +107,7 @@ export default defineComponent({
     };
   },
   methods: {
-    favorite(note: NoteInterface): void {
+    favorite(note: Note): void {
       const favorite = getFavorites().find(
         (favorite) => favorite.id === note.id
       );

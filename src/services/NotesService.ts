@@ -1,10 +1,10 @@
 import Axios from "@/hooks/Axios";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Note } from "@/interfaces/Note";
 
 export default class NotesService {
   axios = new Axios();
 
-  public async getNotes(): Promise<NoteInterface[]> {
+  public async getNotes(): Promise<Note[]> {
     const { data } = await this.axios.get("notes");
 
     return data;
@@ -13,13 +13,13 @@ export default class NotesService {
   /**
    * name
    */
-  public async getNoteById(id: string): Promise<NoteInterface> {
+  public async getNoteById(id: string): Promise<Note> {
     const { data } = await this.axios.get(`notes/${id}`);
 
     return data;
   }
 
-  public async saveNote(note: NoteInterface): Promise<any> {
+  public async saveNote(note: Note): Promise<any> {
     const res = await this.axios.post("notes", note);
 
     console.log(res);
@@ -31,7 +31,7 @@ export default class NotesService {
     console.log(res);
   }
 
-  public async update(note: NoteInterface): Promise<any> {
+  public async update(note: Note): Promise<any> {
     const { id } = note;
 
     const res = await this.axios.put("notes", String(id), note);

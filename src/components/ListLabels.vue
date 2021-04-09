@@ -33,7 +33,7 @@ import {
 } from "@ionic/vue";
 import { bookmark, trash } from "ionicons/icons";
 import { useStore } from "vuex";
-import { LabelInterface } from "@/interfaces/LabelInterface";
+import { Label } from "@/interfaces/Label";
 import { types } from "@/types/types";
 
 export default defineComponent({
@@ -65,7 +65,7 @@ export default defineComponent({
     };
   },
   methods: {
-    remove(label: LabelInterface) {
+    remove(label: Label) {
       this.store.dispatch("deleteLabel", { label });
       this.resetSlides();
     },

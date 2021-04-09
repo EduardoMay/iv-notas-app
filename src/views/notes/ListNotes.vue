@@ -59,7 +59,7 @@ import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { types } from "@/types/types";
 import { getFavorites } from "@/helpers/favorites";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Note } from "@/interfaces/Note";
 
 export default defineComponent({
   name: "ListsNotes",
@@ -100,7 +100,7 @@ export default defineComponent({
     };
   },
   methods: {
-    favorite(note: NoteInterface): void {
+    favorite(note: Note): void {
       const favorite = getFavorites().find(
         (favorite) => favorite.id === note.id
       );

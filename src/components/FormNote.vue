@@ -62,7 +62,7 @@ import {
 import { useStore } from "vuex";
 import { computed, defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Note } from "@/interfaces/Note";
 import { types } from "@/types/types";
 import { bookmark } from "ionicons/icons";
 
@@ -110,7 +110,7 @@ export default defineComponent({
   methods: {
     saveNote(): void {
       if (this.title !== "") {
-        const note: NoteInterface = {
+        const note: Note = {
           id: this.id ? String(this.id) : "",
           title: this.title,
           description: this.description,

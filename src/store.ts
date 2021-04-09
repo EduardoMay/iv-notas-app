@@ -9,9 +9,8 @@ import {
   saveLabel,
   updateLabel
 } from "@/helpers/labels";
-import { updateNote } from "@/helpers/notes";
-import { LabelInterface } from "@/interfaces/LabelInterface";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Label } from "@/interfaces/Label";
+import { Note } from "@/interfaces/Note";
 import { types } from "@/types/types";
 import NotesService from "@/services/NotesService";
 
@@ -92,7 +91,7 @@ export const store = createStore({
     },
     [types.DELETE_LABEL](state: any, payload: any): void {
       state.notesLabels = state.notesLabels.filter(
-        (e: LabelInterface) => e.id !== payload.label.id
+        (e: Label) => e.id !== payload.label.id
       );
 
       deleteLabel(payload.label);
@@ -120,7 +119,7 @@ export const store = createStore({
     },
     [types.DELETE_FAVORITE](state: any, payload: any): void {
       state.favorites = state.favorites.filter(
-        (e: NoteInterface) => e.id !== payload.id
+        (e: Note) => e.id !== payload.id
       );
 
       deleteFavorite(payload.id);
@@ -130,16 +129,16 @@ export const store = createStore({
   // Getters
   getters: {
     getNotesByIdLabel: (state: any) => {
-      return state.notesLabels.map((label: LabelInterface) => {
+      return state.notesLabels.map((label: Label) => {
         label.count = state.notes.filter(
-          (note: NoteInterface) => note.label === label.id
+          (note: Note) => note.label === label.id
         ).length;
 
         return label;
       });
     },
     getLabelById: (state: any) => (id: any) => {
-      const label: LabelInterface = { id: 0, name: "", color: "#92949c" };
+      const label: Label = { id: 0, name: "", color: "#92949c" };
 
       if (id === 0) return label;
 
@@ -151,7 +150,7 @@ export const store = createStore({
         return label;
       }
     },
-    getNoteBydId: (state: any) => async (id: string) => {
+    getNoteBydId: () => async (id: string) => {
       return await noteService.getNoteById(id);
     }
   }

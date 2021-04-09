@@ -54,7 +54,7 @@ import {
 import { bookmark, checkmark, close } from "ionicons/icons";
 import { useStore } from "vuex";
 import { computed, defineComponent } from "vue";
-import { LabelInterface } from "@/interfaces/LabelInterface";
+import { Label } from "@/interfaces/Label";
 import LabelsPopover from "./LabelsPopover.vue";
 import { types } from "@/types/types";
 
@@ -89,7 +89,7 @@ export default defineComponent({
   methods: {
     saveLabel(event: any): void {
       if (this.label.name !== "") {
-        const label: LabelInterface = {
+        const label: Label = {
           id:
             this.store.state.labelSelected !== 0
               ? this.store.state.labelSelected

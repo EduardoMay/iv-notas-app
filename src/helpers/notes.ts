@@ -1,11 +1,11 @@
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Note } from "@/interfaces/Note";
 
 /**
  * Get all notes
  *
- * @return  {Array<NoteInterface>}
+ * @return  {Array<Note>}
  */
-export const getNotes = (): Array<NoteInterface> => {
+export const getNotes = (): Array<Note> => {
   return localStorage.notas ? JSON.parse(localStorage.notas) : [];
 };
 
@@ -14,12 +14,10 @@ export const getNotes = (): Array<NoteInterface> => {
  *
  * @param   {number}         id
  *
- * @return  {NoteInterface | undefined}
+ * @return  {Note | undefined}
  */
-export const getNote = (id: number): NoteInterface => {
-  const note: NoteInterface | any = getNotes().find(
-    (e: NoteInterface) => e.id === id
-  );
+export const getNote = (id: string): Note => {
+  const note: Note | any = getNotes().find((e: Note) => e.id === id);
 
   return note;
 };
@@ -27,12 +25,12 @@ export const getNote = (id: number): NoteInterface => {
 /**
  * Add note
  *
- * @param   {NoteInterface}  note
+ * @param   {Note}  note
  *
  * @return  {void}
  */
-export const addNote = (note: NoteInterface): void => {
-  const notes: NoteInterface[] = [...getNotes(), note];
+export const addNote = (note: Note): void => {
+  const notes: Note[] = [...getNotes(), note];
 
   localStorage.setItem("notas", JSON.stringify(notes));
 };
@@ -40,12 +38,12 @@ export const addNote = (note: NoteInterface): void => {
 /**
  * Update note
  *
- * @param   {NoteInterface}  note
+ * @param   {Note}  note
  *
  * @return  {void}
  */
-export const updateNote = (note: NoteInterface): void => {
-  const notes: Array<NoteInterface> = getNotes().map((n: NoteInterface) => {
+export const updateNote = (note: Note): void => {
+  const notes: Array<Note> = getNotes().map((n: Note) => {
     if (n.id === note.id) {
       n.title = note.title;
       n.description = note.description;
@@ -65,7 +63,7 @@ export const updateNote = (note: NoteInterface): void => {
  *
  * @return  {void}
  */
-export const deleteNote = (id: number): void => {
+export const deleteNote = (id: string): void => {
   const notes = getNotes().filter((e) => e.id !== id);
 
   localStorage.setItem("notas", JSON.stringify(notes));
