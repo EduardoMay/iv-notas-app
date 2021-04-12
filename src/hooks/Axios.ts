@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
+import { Label } from "@/interfaces/Label";
 import { Note } from "@/interfaces/Note";
 
 export default class Axios {
@@ -17,7 +18,7 @@ export default class Axios {
     });
   }
 
-  public async post(endpoint = "", body: Note): Promise<AxiosResponse> {
+  public async post(endpoint = "", body: Note | Label): Promise<AxiosResponse> {
     return await axios.post(`${this.URL_API}/${endpoint}`, body);
   }
 
@@ -28,7 +29,7 @@ export default class Axios {
   public async put(
     endpoint: string,
     id: string,
-    data: Note
+    data: Note | Label
   ): Promise<AxiosResponse> {
     return await axios.put(`${this.URL_API}/${endpoint}/${id}`, data);
   }

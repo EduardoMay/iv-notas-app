@@ -52,6 +52,7 @@ import {
 import { useStore } from "vuex";
 import { computed, defineComponent } from "vue";
 import { bookmark } from "ionicons/icons";
+import { types } from "./types/types";
 
 export default defineComponent({
   name: "App",
@@ -70,6 +71,9 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+
+    store.commit(types.GET_LABELS);
+    store.commit(types.GET_NOTES);
 
     return {
       labels: computed(() => store.getters.getNotesByIdLabel),

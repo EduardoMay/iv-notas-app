@@ -82,8 +82,6 @@ export default defineComponent({
     const router = useRouter();
     const listNotes = ref();
 
-    store.commit(types.GET_NOTES);
-
     const resetSlides = () => {
       listNotes.value.$el.closeSlidingItems();
     };

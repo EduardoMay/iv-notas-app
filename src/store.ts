@@ -13,13 +13,15 @@ import { Label } from "@/interfaces/Label";
 import { Note } from "@/interfaces/Note";
 import { types } from "@/types/types";
 import NotesService from "@/services/NotesService";
+import LabelsService from "@/services/LabelsService";
 
 const noteService = new NotesService();
+const labelService = new LabelsService();
 
 export const store = createStore({
   state() {
     return {
-      notesLabels: getLabels(),
+      notesLabels: [],
       notes: [],
       colorLabel: "#92949c",
       favorites: getFavorites(),
@@ -84,6 +86,9 @@ export const store = createStore({
     },
 
     // LABELS
+    async [types.GET_LABELS](state: any) {
+      state.notesLabels = await labelService.getLabels();
+    },
     [types.ADD_LABEL](state: any, payload: any) {
       state.notesLabels = [...state.notesLabels, payload.label];
 
