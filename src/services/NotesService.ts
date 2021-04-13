@@ -38,4 +38,6 @@ export default class NotesService {
 
     console.log(res);
   }
+
+  public async setFavorite(id: string, favorite: boolean): Promise<any> {}
 }

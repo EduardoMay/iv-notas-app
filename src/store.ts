@@ -6,7 +6,6 @@ import {
   deleteLabel,
   getLabelById,
   getLabels,
-  saveLabel,
   updateLabel
 } from "@/helpers/labels";
 import { Label } from "@/interfaces/Label";
@@ -89,10 +88,10 @@ export const store = createStore({
     async [types.GET_LABELS](state: any) {
       state.notesLabels = await labelService.getLabels();
     },
-    [types.ADD_LABEL](state: any, payload: any) {
-      state.notesLabels = [...state.notesLabels, payload.label];
+    async [types.ADD_LABEL](state: any, payload: any) {
+      await labelService.saveLabel(payload.label);
 
-      saveLabel(payload.label);
+      state.notesLabels = await labelService.getLabels();
     },
     [types.DELETE_LABEL](state: any, payload: any): void {
       state.notesLabels = state.notesLabels.filter(
@@ -143,7 +142,7 @@ export const store = createStore({
       });
     },
     getLabelById: (state: any) => (id: any) => {
-      const label: Label = { id: 0, name: "", color: "#92949c" };
+      const label: Label = { id: 0, description: "", color: "#92949c" };
 
       if (id === 0) return label;
 

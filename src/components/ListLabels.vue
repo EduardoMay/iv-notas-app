@@ -13,7 +13,7 @@
             :icon="bookmark"
             :style="{ color: label.color }"
           ></ion-icon>
-          {{ label.name }}
+          {{ label.description }}
         </ion-label>
       </ion-item>
     </ion-item-sliding>

@@ -22,7 +22,7 @@ export const getLabels = (): Array<Label> => {
  * @return  {Label}
  */
 export const getLabelById = (id: number): Label => {
-  const label: Label = { id: 0, name: "", color: "#92949c" };
+  const label: Label = { id: 0, description: "", color: "#92949c" };
 
   if (id === 0) return label;
 
@@ -82,7 +82,7 @@ export const selectNotesByIdLabel = (id: number): Note[] => {
 export const updateLabel = (label: Label): void => {
   const labels: Array<Label> = getLabels().map((l) => {
     if (l.id === label.id) {
-      l.name = label.name;
+      l.description = label.description;
       l.color = label.color;
     }
 

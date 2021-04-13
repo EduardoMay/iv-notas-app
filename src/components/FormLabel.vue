@@ -4,7 +4,10 @@
       <ion-row class="ion-align-items-center ion-justify-content-between">
         <ion-col size="7" size-md="9">
           <ion-item>
-            <ion-input v-model="label.name" placeholder="Titulo..."></ion-input>
+            <ion-input
+              v-model="label.description"
+              placeholder="Titulo..."
+            ></ion-input>
           </ion-item>
         </ion-col>
         <ion-col size="2" size-md="1" class="ion-text-center">
@@ -72,8 +75,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    console.log(store.state.labelSelected);
-
     return {
       checkmark,
       bookmark,
@@ -90,18 +91,14 @@ export default defineComponent({
     saveLabel(event: any): void {
       if (this.label.name !== "") {
         const label: Label = {
-          id:
-            this.store.state.labelSelected !== 0
-              ? this.store.state.labelSelected
-              : new Date().getTime(),
-          name: this.label.name,
+          description: this.label.description,
           color: this.color
         };
 
         if (this.store.state.labelSelected !== 0) {
           this.store.commit(types.UPDATE_LABEL, { label });
         } else {
-          this.store.dispatch("addLabel", { label });
+          this.store.commit(types.ADD_LABEL, { label });
 
           event.target.reset();
           this.resetForm();

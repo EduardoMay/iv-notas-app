@@ -46,7 +46,7 @@ export default class LabelsService {
   public async setIdNoteToLabel(label: Label): Promise<any> {
     const { id } = label;
 
-    const res = await this.axios.put("labels", id.toString(), label);
+    const res = await this.axios.put("labels", String(id), label);
 
     console.log(res);
   }
