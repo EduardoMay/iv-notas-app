@@ -6,7 +6,7 @@
           <ion-icon :icon="trash" slot="icon-only" />
         </ion-item-option>
       </ion-item-options>
-      <ion-item @click="selected(label.id)">
+      <ion-item @click="selected(label._id)">
         <ion-label>
           <ion-icon
             slot="icon-only"
@@ -65,8 +65,8 @@ export default defineComponent({
     };
   },
   methods: {
-    remove(label: Label) {
-      this.store.commit(types.DELETE_LABEL, { label });
+    remove({ _id }: Label) {
+      this.store.commit(types.DELETE_LABEL, { _id });
       this.resetSlides();
     },
     selected(id: number) {

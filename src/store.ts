@@ -2,12 +2,7 @@ import _ from "lodash";
 import { createStore } from "vuex";
 
 import { addFavorite, deleteFavorite, getFavorites } from "@/helpers/favorites";
-import {
-  deleteLabel,
-  getLabelById,
-  getLabels,
-  updateLabel
-} from "@/helpers/labels";
+import { getLabelById, getLabels, updateLabel } from "@/helpers/labels";
 import { Label } from "@/interfaces/Label";
 import { Note } from "@/interfaces/Note";
 import { types } from "@/types/types";
@@ -93,12 +88,10 @@ export const store = createStore({
 
       state.notesLabels = await labelService.getLabels();
     },
-    [types.DELETE_LABEL](state: any, payload: any): void {
-      state.notesLabels = state.notesLabels.filter(
-        (e: Label) => e.id !== payload.label.id
-      );
+    async [types.DELETE_LABEL](state: any, { _id }: any): Promise<any> {
+      await labelService.deleteLabel(_id);
 
-      deleteLabel(payload.label);
+      state.notesLabels = await labelService.getLabels();
     },
     [types.SET_COLOR_LABEL](state: any, payload: any): void {
       state.colorLabel = payload.color;
@@ -135,14 +128,14 @@ export const store = createStore({
     getNotesByIdLabel: (state: any) => {
       return state.notesLabels.map((label: Label) => {
         label.count = state.notes.filter(
-          (note: Note) => note.label === label.id
+          (note: Note) => note.label === label._id
         ).length;
 
         return label;
       });
     },
     getLabelById: (state: any) => (id: any) => {
-      const label: Label = { id: 0, description: "", color: "#92949c" };
+      const label: Label = { _id: 0, description: "", color: "#92949c" };
 
       if (id === 0) return label;
 

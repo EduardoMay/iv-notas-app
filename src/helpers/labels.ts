@@ -22,11 +22,11 @@ export const getLabels = (): Array<Label> => {
  * @return  {Label}
  */
 export const getLabelById = (id: number): Label => {
-  const label: Label = { id: 0, description: "", color: "#92949c" };
+  const label: Label = { _id: 0, description: "", color: "#92949c" };
 
   if (id === 0) return label;
 
-  const obj = _.find(getLabels(), { id });
+  const obj = _.find(getLabels(), { _id: id });
 
   if (obj) {
     return obj;
@@ -56,7 +56,7 @@ export const saveLabel = (label: Label): void => {
  * @return  {void}
  */
 export const deleteLabel = (label: Label): void => {
-  const labels = getLabels().filter((e) => e.id !== label.id);
+  const labels = getLabels().filter((e) => e._id !== label._id);
 
   localStorage.setItem("notesLabels", JSON.stringify(labels));
 };
@@ -81,7 +81,7 @@ export const selectNotesByIdLabel = (id: number): Note[] => {
  */
 export const updateLabel = (label: Label): void => {
   const labels: Array<Label> = getLabels().map((l) => {
-    if (l.id === label.id) {
+    if (l._id === label._id) {
       l.description = label.description;
       l.color = label.color;
     }
