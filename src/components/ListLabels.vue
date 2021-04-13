@@ -66,7 +66,7 @@ export default defineComponent({
   },
   methods: {
     remove(label: Label) {
-      this.store.dispatch("deleteLabel", { label });
+      this.store.commit(types.DELETE_LABEL, { label });
       this.resetSlides();
     },
     selected(id: number) {
