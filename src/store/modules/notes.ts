@@ -1,59 +1,58 @@
-import { addNote, deleteNote, getNotes, updateNote } from "@/helpers/notes";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
 
+const noteService = new NotesService();
+
 const state = () => ({
-	notes: getNotes(),
-	colorLabel: "#92949c"
+  notes: []
 });
 
 const actions = {
-	// NOTES
-	getNotes({ commit }: any): void {
-		commit(types.GET_NOTES);
-	},
-	addNote({ commit }: any, payload: any): void {
-		commit(types.ADD_NOTE, payload);
-	},
-	updateNote({ commit }: any, payload: any): void {
-		commit(types.UPDATE_NOTE, payload);
-	},
-	deleteNote({ commit }: any, payload: any): void {
-		commit(types.DELETE_NOTE, payload);
-	}
+  getNotes({ commit }: any): void {
+    commit(types.GET_NOTES);
+  },
+  addNote({ commit }: any, payload: any): void {
+    commit(types.ADD_NOTE, payload);
+  },
+  updateNote({ commit }: any, payload: any): void {
+    commit(types.UPDATE_NOTE, payload);
+  },
+  deleteNote({ commit }: any, payload: any): void {
+    commit(types.DELETE_NOTE, payload);
+  }
 };
 
 const mutations = {
-	[types.GET_NOTES](state: any) {
-		state.notes = getNotes();
-	},
-	[types.ADD_NOTE](state: any, payload: any) {
-		state.notes = [...state.notes, payload.note];
+  async [types.GET_NOTES](state: any) {
+    state.notes = await noteService.getNotes();
+  },
+  [types.ADD_NOTE](state: any, payload: any) {
+    state.notes = [...state.notes, payload.note];
 
-		addNote(payload.note);
-	},
-	[types.UPDATE_NOTE](state: any, payload: any) {
-		state.notes = state.notes.map((n: NoteInterface) => {
-			if (n.id === payload.note.id) {
-				n.title = payload.note.titulo;
-				n.description = payload.note.nota;
-			}
+    noteService.saveNote(payload.note);
+  },
+  async [types.UPDATE_NOTE](state: any, { note }: any) {
+    await noteService.update(note);
 
-			return n;
-		});
+    state.notes = await noteService.getNotes();
+  },
+  async [types.DELETE_NOTE](state: any, payload: any) {
+    await noteService.deleteNote(payload.id);
 
-		updateNote(payload.note);
-	},
-	[types.DELETE_NOTE](state: any, payload: any) {
-		state.notes = state.notes.filter((e: NoteInterface) => e.id !== payload.id);
+    state.notes = await noteService.getNotes();
+  }
+};
 
-		deleteNote(payload.id);
-	}
+const getters = {
+  getNoteBydId: () => async (id: string) => {
+    return await noteService.getNoteById(id);
+  }
 };
 
 export default {
-	namespaced: true,
-	state,
-	actions,
-	mutations
+  namespaced: true,
+  state,
+  actions,
+  mutations,
+  getters
 };
