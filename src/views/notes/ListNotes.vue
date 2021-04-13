@@ -58,7 +58,6 @@ import { useStore } from "vuex";
 import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { types } from "@/types/types";
-import { getFavorites } from "@/helpers/favorites";
 import { Note } from "@/interfaces/Note";
 
 export default defineComponent({

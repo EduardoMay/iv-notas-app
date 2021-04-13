@@ -1,3 +1,4 @@
+import { Note } from "@/interfaces/Note";
 import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
 
@@ -12,8 +13,9 @@ const actions = {
     await commit(types.ADD_FAVORITE, payload);
     await commit(types.GET_NOTES);
   },
-  deleteFavorite({ commit }: any, payload: any) {
-    commit(types.ADD_FAVORITE, payload);
+  async deleteFavorite({ commit }: any, payload: any) {
+    await commit(types.ADD_FAVORITE, payload);
+    await commit(types.GET_NOTES);
   }
 };
 
@@ -23,9 +25,20 @@ const mutations = {
   }
 };
 
+const getters = {
+  getFavorites: (state: any, getters: any, rootState: any) => {
+    const notes = rootState.NotesModule.notes;
+
+    const favorites = notes.filter((note: Note) => note.favorite && note);
+
+    return favorites;
+  }
+};
+
 export const FavoritesModule = {
   namespace: true,
   state,
   actions,
-  mutations
+  mutations,
+  getters
 };
