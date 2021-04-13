@@ -13,18 +13,18 @@
               <ion-icon :icon="heart" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
-          <ion-item :router-link="'/notes/view/' + note.id">
+          <ion-item :router-link="'/notes/view/' + note._id">
             <ion-label>{{ note.title }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option @click="deleteNote(note.id)" color="danger">
+            <ion-item-option @click="deleteNote(note._id)" color="danger">
               <ion-icon :icon="trash" slot="icon-only" />
             </ion-item-option>
             <ion-item-option
               @click="
                 () => {
                   resetSlides();
-                  router.push(`/notes/edit/${note.id}`);
+                  router.replace(`/notes/edit/${note._id}`);
                 }
               "
             >
@@ -59,7 +59,7 @@ import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { types } from "@/types/types";
 import { getFavorites } from "@/helpers/favorites";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Note } from "@/interfaces/Note";
 
 export default defineComponent({
   name: "ListsNotes",
@@ -98,23 +98,23 @@ export default defineComponent({
     };
   },
   methods: {
-    favorite(note: NoteInterface): void {
+    favorite(note: Note): void {
       const favorite = getFavorites().find(
-        (favorite) => favorite.id === note.id
+        (favorite) => favorite._id === note._id
       );
 
       if (favorite) {
         this.openToast("Ya esta en tu favoritos");
       } else {
-        this.store.dispatch(types.ADD_FAVORITE, { favorite: note });
+        this.store.dispatch(types.ADD_FAVORITE, { note });
 
         this.openToast("Se agrego a favoritos");
       }
 
       this.resetSlides();
     },
-    deleteNote(id: number) {
-      this.store.dispatch(types.DELETE_NOTE, { id });
+    async deleteNote(id: string): Promise<void> {
+      await this.store.dispatch(types.DELETE_NOTE, { id });
     },
     async openToast(message: string) {
       const toast = await toastController.create({

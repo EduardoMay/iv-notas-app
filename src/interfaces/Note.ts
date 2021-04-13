@@ -1,5 +1,5 @@
-export interface NoteInterface {
-  id: number;
+export interface Note {
+  _id?: string;
   title: string;
   description: string;
   label?: number;

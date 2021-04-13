@@ -1,160 +1,154 @@
 import _ from "lodash";
 import { createStore } from "vuex";
 
-import { addFavorite, deleteFavorite, getFavorites } from "@/helpers/favorites";
-import {
-	deleteLabel,
-	getLabelById,
-	getLabels,
-	saveLabel,
-	updateLabel
-} from "@/helpers/labels";
-import { addNote, deleteNote, getNotes, updateNote } from "@/helpers/notes";
-import { LabelInterface } from "@/interfaces/LabelInterface";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { deleteFavorite, getFavorites } from "@/helpers/favorites";
+import { getLabelById, getLabels, updateLabel } from "@/helpers/labels";
+import { Label } from "@/interfaces/Label";
+import { Note } from "@/interfaces/Note";
 import { types } from "@/types/types";
+import NotesService from "@/services/NotesService";
+import LabelsService from "@/services/LabelsService";
+
+const noteService = new NotesService();
+const labelService = new LabelsService();
 
 export const store = createStore({
-	state() {
-		return {
-			notesLabels: getLabels(),
-			notes: getNotes(),
-			colorLabel: "#92949c",
-			favorites: getFavorites(),
-			labelSelected: 0
-		};
-	},
+  state() {
+    return {
+      notesLabels: [],
+      notes: [],
+      colorLabel: "#92949c",
+      favorites: getFavorites(),
+      labelSelected: 0
+    };
+  },
 
-	// ACTIONS (asynchronous)
-	actions: {
-		// NOTES
-		getNotes({ commit }): void {
-			commit(types.GET_NOTES);
-		},
-		addNote({ commit }, payload): void {
-			commit(types.ADD_NOTE, payload);
-		},
-		updateNote({ commit }, payload): void {
-			commit(types.UPDATE_NOTE, payload);
-		},
-		deleteNote({ commit }, payload): void {
-			commit(types.DELETE_NOTE, payload);
-		},
+  // ACTIONS (asynchronous)
+  actions: {
+    // NOTES
+    getNotes({ commit }): void {
+      commit(types.GET_NOTES);
+    },
+    addNote({ commit }, payload): void {
+      commit(types.ADD_NOTE, payload);
+    },
+    updateNote({ commit }, payload): void {
+      commit(types.UPDATE_NOTE, payload);
+    },
+    deleteNote({ commit }, payload): void {
+      commit(types.DELETE_NOTE, payload);
+    },
 
-		// LABELS
-		addLabel({ commit }, payload) {
-			commit(types.ADD_LABEL, payload);
-		},
-		deleteLabel({ commit }, payload) {
-			commit(types.DELETE_LABEL, payload);
-		},
+    // LABELS
+    addLabel({ commit }, payload) {
+      commit(types.ADD_LABEL, payload);
+    },
+    deleteLabel({ commit }, payload) {
+      commit(types.DELETE_LABEL, payload);
+    },
 
-		// FAVORITES
-		addFavorite({ commit }, payload) {
-			commit(types.ADD_FAVORITE, payload);
-		},
-		deleteFavorite({ commit }, payload) {
-			commit(types.DELETE_FAVORITE, payload);
-		}
-	},
+    // FAVORITES
+    addFavorite({ commit }, payload) {
+      commit(types.ADD_FAVORITE, payload);
+    },
+    deleteFavorite({ commit }, payload) {
+      commit(types.DELETE_FAVORITE, payload);
+    }
+  },
 
-	// MUTATIONS (set the state)
-	mutations: {
-		// NOTES
-		[types.GET_NOTES](state: any) {
-			state.notes = getNotes();
-		},
-		[types.ADD_NOTE](state: any, payload) {
-			state.notes = [...state.notes, payload.note];
+  // MUTATIONS (set the state)
+  mutations: {
+    // NOTES
+    async [types.GET_NOTES](state: any) {
+      state.notes = await noteService.getNotes();
+    },
+    [types.ADD_NOTE](state: any, payload) {
+      state.notes = [...state.notes, payload.note];
 
-			addNote(payload.note);
-		},
-		[types.UPDATE_NOTE](state: any, payload: any) {
-			state.notes = state.notes.map((n: NoteInterface) => {
-				if (n.id === payload.note.id) {
-					n.title = payload.note.titulo;
-					n.description = payload.note.nota;
-				}
+      delete payload.note.id;
+      noteService.saveNote(payload.note);
+    },
+    async [types.UPDATE_NOTE](state: any, { note }: any) {
+      await noteService.update(note);
 
-				return n;
-			});
+      state.notes = await noteService.getNotes();
+    },
+    async [types.DELETE_NOTE](state: any, payload: any) {
+      await noteService.deleteNote(payload.id);
 
-			updateNote(payload.note);
-		},
-		[types.DELETE_NOTE](state: any, payload: any) {
-			state.notes = state.notes.filter(
-				(e: NoteInterface) => e.id !== payload.id
-			);
+      state.notes = await noteService.getNotes();
+    },
 
-			deleteNote(payload.id);
-		},
+    // LABELS
+    async [types.GET_LABELS](state: any) {
+      state.notesLabels = await labelService.getLabels();
+    },
+    async [types.ADD_LABEL](state: any, payload: any) {
+      await labelService.saveLabel(payload.label);
 
-		// LABELS
-		[types.ADD_LABEL](state: any, payload: any) {
-			state.notesLabels = [...state.notesLabels, payload.label];
+      state.notesLabels = await labelService.getLabels();
+    },
+    async [types.DELETE_LABEL](state: any, { _id }: any): Promise<any> {
+      await labelService.deleteLabel(_id);
 
-			saveLabel(payload.label);
-		},
-		[types.DELETE_LABEL](state: any, payload: any): void {
-			state.notesLabels = state.notesLabels.filter(
-				(e: LabelInterface) => e.id !== payload.label.id
-			);
+      state.notesLabels = await labelService.getLabels();
+    },
+    [types.SET_COLOR_LABEL](state: any, payload: any): void {
+      state.colorLabel = payload.color;
+    },
+    [types.LABEL_SELECTED](state: any, payload: any): void {
+      state.labelSelected = payload.id;
+      state.colorLabel = getLabelById(payload.id)?.color;
+    },
+    [types.UPDATE_LABEL](state: any, payload): void {
+      updateLabel(payload.label);
 
-			deleteLabel(payload.label);
-		},
-		[types.SET_COLOR_LABEL](state: any, payload: any): void {
-			state.colorLabel = payload.color;
-		},
-		[types.LABEL_SELECTED](state: any, payload: any): void {
-			state.labelSelected = payload.id;
-			state.colorLabel = getLabelById(payload.id)?.color;
-		},
-		[types.UPDATE_LABEL](state: any, payload): void {
-			updateLabel(payload.label);
+      state.notesLabels = getLabels();
+      state.colorLabel = "#92949c";
+      state.labelSelected = 0;
+    },
 
-			state.notesLabels = getLabels();
-			state.colorLabel = "#92949c";
-			state.labelSelected = 0;
-		},
+    // FAVORITES
+    async [types.ADD_FAVORITE](state: any, payload: any): Promise<void> {
+      await noteService.setFavorite(payload.note);
 
-		// FAVORITES
-		[types.ADD_FAVORITE](state: any, payload: any): void {
-			state.favorites = [...state.favorites, payload.favorite];
+      state.notes = await noteService.getNotes();
+    },
+    [types.DELETE_FAVORITE](state: any, payload: any): void {
+      state.favorites = state.favorites.filter(
+        (e: Note) => e._id !== payload.id
+      );
 
-			addFavorite(payload.favorite);
-		},
-		[types.DELETE_FAVORITE](state: any, payload: any): void {
-			state.favorites = state.favorites.filter(
-				(e: NoteInterface) => e.id !== payload.id
-			);
+      deleteFavorite(payload.id);
+    }
+  },
 
-			deleteFavorite(payload.id);
-		}
-	},
+  // Getters
+  getters: {
+    getNotesByIdLabel: (state: any) => {
+      return state.notesLabels.map((label: Label) => {
+        label.count = state.notes.filter(
+          (note: Note) => note.label === label._id
+        ).length;
 
-	// Getters
-	getters: {
-		getNotesByIdLabel: (state: any) => {
-			return state.notesLabels.map((label: LabelInterface) => {
-				label.count = state.notes.filter(
-					(note: NoteInterface) => note.label === label.id
-				).length;
+        return label;
+      });
+    },
+    getLabelById: (state: any) => (id: any) => {
+      const label: Label = { _id: 0, description: "", color: "#92949c" };
 
-				return label;
-			});
-		},
-		getLabelById: (state: any) => (id: any) => {
-			const label: LabelInterface = { id: 0, name: "", color: "#92949c" };
+      if (id === 0) return label;
 
-			if (id === 0) return label;
+      const obj = _.find(state.notesLabels, { id });
 
-			const obj = _.find(state.notesLabels, { id });
-
-			if (obj) {
-				return obj;
-			} else {
-				return label;
-			}
-		}
-	}
+      if (obj) {
+        return obj;
+      } else {
+        return label;
+      }
+    },
+    getNoteBydId: () => async (id: string) => {
+      return await noteService.getNoteById(id);
+    }
+  }
 });

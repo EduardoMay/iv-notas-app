@@ -7,7 +7,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <form-note/>
+      <Suspense>
+        <form-note :values="id" />
+      </Suspense>
     </ion-content>
   </ion-page>
 </template>
@@ -18,9 +20,9 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent,
+  IonContent
 } from "@ionic/vue";
-import {useRoute} from "vue-router";
+import { useRoute } from "vue-router";
 import FormNote from "@/components/FormNote.vue";
 
 export default {
@@ -31,7 +33,7 @@ export default {
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent,
+    IonContent
   },
   setup() {
     const route = useRoute();

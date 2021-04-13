@@ -1,17 +1,17 @@
 import _ from "lodash";
 
-import { LabelInterface } from "@/interfaces/LabelInterface";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Label } from "@/interfaces/Label";
+import { Note } from "@/interfaces/Note";
 
 import { getNotes } from "./notes";
 
 /**
  * Get Labels
  *
- * @return  {Array<LabelInterface>}
+ * @return  {Array<Label>}
  */
-export const getLabels = (): Array<LabelInterface> => {
-	return localStorage.notesLabels ? JSON.parse(localStorage.notesLabels) : [];
+export const getLabels = (): Array<Label> => {
+  return localStorage.notesLabels ? JSON.parse(localStorage.notesLabels) : [];
 };
 
 /**
@@ -19,46 +19,46 @@ export const getLabels = (): Array<LabelInterface> => {
  *
  * @param   {number}          id
  *
- * @return  {LabelInterface}
+ * @return  {Label}
  */
-export const getLabelById = (id: number): LabelInterface => {
-	const label: LabelInterface = { id: 0, name: "", color: "#92949c" };
+export const getLabelById = (id: number): Label => {
+  const label: Label = { _id: 0, description: "", color: "#92949c" };
 
-	if (id === 0) return label;
+  if (id === 0) return label;
 
-	const obj = _.find(getLabels(), { id });
+  const obj = _.find(getLabels(), { _id: id });
 
-	if (obj) {
-		return obj;
-	} else {
-		return label;
-	}
+  if (obj) {
+    return obj;
+  } else {
+    return label;
+  }
 };
 
 /**
  * Save Label
  *
- * @param   {LabelInterface}  label
+ * @param   {Label}  label
  *
  * @return  {void}
  */
-export const saveLabel = (label: LabelInterface): void => {
-	const labels = [...getLabels(), label];
+export const saveLabel = (label: Label): void => {
+  const labels = [...getLabels(), label];
 
-	localStorage.setItem("notesLabels", JSON.stringify(labels));
+  localStorage.setItem("notesLabels", JSON.stringify(labels));
 };
 
 /**
  * Delete Label
  *
- * @param   {LabelInterface}  label
+ * @param   {Label}  label
  *
  * @return  {void}
  */
-export const deleteLabel = (label: LabelInterface): void => {
-	const labels = getLabels().filter((e) => e.id !== label.id);
+export const deleteLabel = (label: Label): void => {
+  const labels = getLabels().filter((e) => e._id !== label._id);
 
-	localStorage.setItem("notesLabels", JSON.stringify(labels));
+  localStorage.setItem("notesLabels", JSON.stringify(labels));
 };
 
 /**
@@ -66,28 +66,28 @@ export const deleteLabel = (label: LabelInterface): void => {
  *
  * @param   {number[]}         id
  *
- * @return  {NoteInterface[]}
+ * @return  {Note[]}
  */
-export const selectNotesByIdLabel = (id: number): NoteInterface[] => {
-	return getNotes().filter((note) => note.label === id);
+export const selectNotesByIdLabel = (id: number): Note[] => {
+  return getNotes().filter((note) => note.label === id);
 };
 
 /**
  * Updated Label
  *
- * @param   {LabelInterface}  label
+ * @param   {Label}  label
  *
  * @return  {void}
  */
-export const updateLabel = (label: LabelInterface): void => {
-	const labels: Array<LabelInterface> = getLabels().map((l) => {
-		if (l.id === label.id) {
-			l.name = label.name;
-			l.color = label.color;
-		}
+export const updateLabel = (label: Label): void => {
+  const labels: Array<Label> = getLabels().map((l) => {
+    if (l._id === label._id) {
+      l.description = label.description;
+      l.color = label.color;
+    }
 
-		return l;
-	});
+    return l;
+  });
 
-	localStorage.setItem("notesLabels", JSON.stringify(labels));
+  localStorage.setItem("notesLabels", JSON.stringify(labels));
 };

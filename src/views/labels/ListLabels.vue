@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{label.name}}</ion-title>
+        <ion-title>{{ label.name }}</ion-title>
         <ion-buttons slot="start">
           <ion-back-button default-href="/notes/list"></ion-back-button>
         </ion-buttons>
@@ -16,18 +16,18 @@
               <ion-icon :icon="heart" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
-          <ion-item :router-link="'/notes/view/' + note.id">
+          <ion-item :router-link="'/notes/view/' + note._id">
             <ion-label>{{ note.title }}</ion-label>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option @click="deleteNote(note.id)" color="danger">
+            <ion-item-option @click="deleteNote(note._id)" color="danger">
               <ion-icon :icon="trash" slot="icon-only" />
             </ion-item-option>
             <ion-item-option
               @click="
                 () => {
                   resetSlides();
-                  router.push(`/notes/edit/${note.id}`);
+                  router.push(`/notes/edit/${note._id}`);
                 }
               "
             >
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, ref} from "vue";
+import { computed, defineComponent, ref } from "vue";
 import {
   IonPage,
   IonHeader,
@@ -61,7 +61,7 @@ import {
 } from "@ionic/vue";
 import { useRoute } from "vue-router";
 import { getLabelById, selectNotesByIdLabel } from "@/helpers/labels";
-import { NoteInterface } from "@/interfaces/NoteInterface";
+import { Note } from "@/interfaces/Note";
 import { getFavorites } from "@/helpers/favorites";
 import { useStore } from "vuex";
 import { types } from "@/types/types";
@@ -107,9 +107,9 @@ export default defineComponent({
     };
   },
   methods: {
-    favorite(note: NoteInterface): void {
+    favorite(note: Note): void {
       const favorite = getFavorites().find(
-        (favorite) => favorite.id === note.id
+        (favorite) => favorite._id === note._id
       );
 
       if (favorite) {

@@ -32,7 +32,17 @@
       Guardar
     </ion-button>
 
-    <ion-button class="ion-margin-top" color="default" expand="full" type="button" router-link="/notes/list">
+    <ion-button
+      class="ion-margin-top"
+      color="light"
+      expand="full"
+      type="button"
+      @click="
+        () => {
+          router.replace('/notes/list');
+        }
+      "
+    >
       Cancelar
     </ion-button>
   </form>
@@ -49,13 +59,12 @@ import {
   IonSelect,
   IonSelectOption
 } from "@ionic/vue";
-import {useStore} from "vuex";
-import {computed, defineComponent} from "vue";
-import {useRoute, useRouter} from "vue-router";
-import {NoteInterface} from "@/interfaces/NoteInterface";
-import {types} from "@/types/types";
-import {getNote} from "@/helpers/notes";
-import {bookmark} from "ionicons/icons";
+import { useStore } from "vuex";
+import { computed, defineComponent } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { Note } from "@/interfaces/Note";
+import { types } from "@/types/types";
+import { bookmark } from "ionicons/icons";
 
 export default defineComponent({
   name: "FormNote",
@@ -68,11 +77,11 @@ export default defineComponent({
     IonSelect,
     IonSelectOption
   },
-  setup() {
+  async setup() {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    let {id} = route?.params;
+    let { id } = route?.params;
     let title = "";
     let description = "";
     let label = 0;
@@ -80,7 +89,7 @@ export default defineComponent({
     if (!id) {
       id = "";
     } else {
-      const note = getNote(Number(id));
+      const note = await store.getters.getNoteBydId(id);
 
       title = note?.title || "";
       description = note?.description || "";
@@ -101,18 +110,18 @@ export default defineComponent({
   methods: {
     saveNote(): void {
       if (this.title !== "") {
-        const note: NoteInterface = {
-          id: this.id === "" ? new Date().getTime() : Number(this.id),
+        const note: Note = {
+          _id: this.id ? String(this.id) : "",
           title: this.title,
           description: this.description,
           label: Number(this.label)
         };
 
         if (this.id !== "") {
-          this.store.dispatch(types.UPDATE_NOTE, {note});
+          this.store.dispatch(types.UPDATE_NOTE, { note });
           this.router.replace(`/notes/view/${this.id}`);
         } else {
-          this.store.dispatch(types.ADD_NOTE, {note});
+          this.store.dispatch(types.ADD_NOTE, { note });
           this.router.replace("/notes/list");
         }
 
