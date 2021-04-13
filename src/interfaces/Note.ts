@@ -3,4 +3,5 @@ export interface Note {
   title: string;
   description: string;
   label?: number;
+  favorite?: boolean;
 }

@@ -99,15 +99,11 @@ export default defineComponent({
   },
   methods: {
     favorite(note: Note): void {
-      const favorite = getFavorites().find(
-        (favorite) => favorite._id === note._id
-      );
-
-      if (favorite) {
+      if (note.favorite) {
         this.openToast("Ya esta en tu favoritos");
       } else {
+        note.favorite = true;
         this.store.dispatch(types.ADD_FAVORITE, { note });
-
         this.openToast("Se agrego a favoritos");
       }
 

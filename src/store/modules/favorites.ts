@@ -1,38 +1,30 @@
-import { deleteFavorite, getFavorites } from "@/helpers/favorites";
-import { Note } from "@/interfaces/Note";
 import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
 
 const noteService = new NotesService();
 
 const state = () => ({
-  favorites: getFavorites()
+  favorites: []
 });
 
 const actions = {
-  addFavorite({ commit }: any, payload: any) {
-    commit(types.ADD_FAVORITE, payload);
+  async addFavorite({ commit }: any, payload: any) {
+    await commit(types.ADD_FAVORITE, payload);
+    await commit(types.GET_NOTES);
   },
   deleteFavorite({ commit }: any, payload: any) {
-    commit(types.DELETE_FAVORITE, payload);
+    commit(types.ADD_FAVORITE, payload);
   }
 };
 
 const mutations = {
-  async [types.ADD_FAVORITE](state: any, payload: any): Promise<void> {
-    await noteService.setFavorite(payload.note);
-
-    state.notes = await noteService.getNotes();
-  },
-  [types.DELETE_FAVORITE](state: any, payload: any): void {
-    state.favorites = state.favorites.filter((e: Note) => e._id !== payload.id);
-
-    deleteFavorite(payload.id);
+  async [types.ADD_FAVORITE](state: any, { note }: any): Promise<void> {
+    await noteService.setFavorite(note);
   }
 };
 
 export const FavoritesModule = {
-  namespaced: true,
+  namespace: true,
   state,
   actions,
   mutations

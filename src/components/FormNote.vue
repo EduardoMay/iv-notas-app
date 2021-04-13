@@ -111,10 +111,10 @@ export default defineComponent({
     saveNote(): void {
       if (this.title !== "") {
         const note: Note = {
-          _id: this.id ? String(this.id) : "",
           title: this.title,
           description: this.description,
-          label: Number(this.label)
+          label: Number(this.label),
+          favorite: false
         };
 
         if (this.id !== "") {
@@ -138,7 +138,7 @@ export default defineComponent({
       const toast = await toastController.create({
         header: "Nota",
         message: title,
-        duration: 2000
+        duration: 1200
       });
       return toast.present();
     }
