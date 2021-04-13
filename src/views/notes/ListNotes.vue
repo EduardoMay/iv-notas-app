@@ -100,13 +100,13 @@ export default defineComponent({
   methods: {
     favorite(note: Note): void {
       const favorite = getFavorites().find(
-        (favorite) => favorite.id === note.id
+        (favorite) => favorite._id === note._id
       );
 
       if (favorite) {
         this.openToast("Ya esta en tu favoritos");
       } else {
-        this.store.dispatch(types.ADD_FAVORITE, { favorite: note });
+        this.store.dispatch(types.ADD_FAVORITE, { note });
 
         this.openToast("Se agrego a favoritos");
       }

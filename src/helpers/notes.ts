@@ -17,7 +17,7 @@ export const getNotes = (): Array<Note> => {
  * @return  {Note | undefined}
  */
 export const getNote = (id: string): Note => {
-  const note: Note | any = getNotes().find((e: Note) => e.id === id);
+  const note: Note | any = getNotes().find((e: Note) => e._id === id);
 
   return note;
 };
@@ -44,7 +44,7 @@ export const addNote = (note: Note): void => {
  */
 export const updateNote = (note: Note): void => {
   const notes: Array<Note> = getNotes().map((n: Note) => {
-    if (n.id === note.id) {
+    if (n._id === note._id) {
       n.title = note.title;
       n.description = note.description;
       n.label = note.label;
@@ -64,7 +64,7 @@ export const updateNote = (note: Note): void => {
  * @return  {void}
  */
 export const deleteNote = (id: string): void => {
-  const notes = getNotes().filter((e) => e.id !== id);
+  const notes = getNotes().filter((e) => e._id !== id);
 
   localStorage.setItem("notas", JSON.stringify(notes));
 };

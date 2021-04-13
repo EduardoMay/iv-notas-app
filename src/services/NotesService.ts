@@ -32,9 +32,15 @@ export default class NotesService {
   }
 
   public async update(note: Note): Promise<any> {
-    const { id } = note;
+    const { _id } = note;
 
-    const res = await this.axios.put("notes", String(id), note);
+    const res = await this.axios.put("notes", String(_id), note);
+
+    console.log(res);
+  }
+
+  public async setFavorite(note: Note): Promise<any> {
+    const res = await this.axios.put("favorites", String(note._id), note);
 
     console.log(res);
   }

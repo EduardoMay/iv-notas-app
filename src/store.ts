@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { createStore } from "vuex";
 
-import { addFavorite, deleteFavorite, getFavorites } from "@/helpers/favorites";
+import { deleteFavorite, getFavorites } from "@/helpers/favorites";
 import { getLabelById, getLabels, updateLabel } from "@/helpers/labels";
 import { Label } from "@/interfaces/Label";
 import { Note } from "@/interfaces/Note";
@@ -109,14 +109,14 @@ export const store = createStore({
     },
 
     // FAVORITES
-    [types.ADD_FAVORITE](state: any, payload: any): void {
-      state.favorites = [...state.favorites, payload.favorite];
+    async [types.ADD_FAVORITE](state: any, payload: any): Promise<void> {
+      await noteService.setFavorite(payload.note);
 
-      addFavorite(payload.favorite);
+      state.notes = await noteService.getNotes();
     },
     [types.DELETE_FAVORITE](state: any, payload: any): void {
       state.favorites = state.favorites.filter(
-        (e: Note) => e.id !== payload.id
+        (e: Note) => e._id !== payload.id
       );
 
       deleteFavorite(payload.id);

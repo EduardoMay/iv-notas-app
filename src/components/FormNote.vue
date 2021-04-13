@@ -111,7 +111,7 @@ export default defineComponent({
     saveNote(): void {
       if (this.title !== "") {
         const note: Note = {
-          id: this.id ? String(this.id) : "",
+          _id: this.id ? String(this.id) : "",
           title: this.title,
           description: this.description,
           label: Number(this.label)

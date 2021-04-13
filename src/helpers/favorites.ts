@@ -32,7 +32,7 @@ export const addFavorite = (favorite: Note): void => {
  * @return  {void}
  */
 export const deleteFavorite = (id: string): void => {
-  const favorites = getFavorites().filter((favorite) => favorite.id !== id);
+  const favorites = getFavorites().filter((favorite) => favorite._id !== id);
 
   localStorage.setItem("favoritesNotes", JSON.stringify(favorites));
 };
