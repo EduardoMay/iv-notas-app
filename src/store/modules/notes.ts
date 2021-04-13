@@ -26,10 +26,10 @@ const mutations = {
   async [types.GET_NOTES](state: any) {
     state.notes = await noteService.getNotes();
   },
-  [types.ADD_NOTE](state: any, payload: any) {
-    state.notes = [...state.notes, payload.note];
+  async [types.ADD_NOTE](state: any, payload: any) {
+    await noteService.saveNote(payload.note);
 
-    noteService.saveNote(payload.note);
+    state.notes = await noteService.getNotes();
   },
   async [types.UPDATE_NOTE](state: any, { note }: any) {
     await noteService.update(note);
@@ -49,8 +49,8 @@ const getters = {
   }
 };
 
-export default {
-  namespaced: true,
+export const NotesModule = {
+  namespace: true,
   state,
   actions,
   mutations,

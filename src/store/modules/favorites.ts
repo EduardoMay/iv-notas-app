@@ -1,4 +1,4 @@
-import { addFavorite, deleteFavorite, getFavorites } from "@/helpers/favorites";
+import { deleteFavorite, getFavorites } from "@/helpers/favorites";
 import { Note } from "@/interfaces/Note";
 import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
@@ -31,7 +31,7 @@ const mutations = {
   }
 };
 
-export default {
+export const FavoritesModule = {
   namespaced: true,
   state,
   actions,

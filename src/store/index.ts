@@ -1,12 +1,12 @@
 import { createStore } from "vuex";
-import notes from "./modules/notes";
-import labels from "./modules/labels";
-import favorites from "./modules/favorites";
+import { NotesModule } from "./modules/notes";
+import { LabelsModule } from "./modules/labels";
+import { FavoritesModule } from "./modules/favorites";
 
 export const store = createStore({
   modules: {
-    notes,
-    labels,
-    favorites
+    NotesModule,
+    LabelsModule,
+    FavoritesModule
   }
 });

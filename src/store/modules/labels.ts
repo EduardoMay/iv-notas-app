@@ -78,8 +78,8 @@ const getters = {
   }
 };
 
-export default {
-  namespaced: true,
+export const LabelsModule = {
+  namespace: true,
   state,
   actions,
   mutations,

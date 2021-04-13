@@ -103,7 +103,7 @@ export default defineComponent({
       description,
       label,
       store,
-      labels: computed(() => store.state.notesLabels),
+      labels: computed(() => store.state.LabelsModule.notesLabels),
       bookmark
     };
   },

@@ -94,7 +94,7 @@ export default defineComponent({
       resetSlides,
       listNotes,
       store,
-      notes: computed(() => store.state.notes)
+      notes: computed(() => store.state.NotesModule.notes)
     };
   },
   methods: {
