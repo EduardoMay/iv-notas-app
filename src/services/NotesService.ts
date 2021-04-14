@@ -33,6 +33,7 @@ export default class NotesService {
 
   public async update(note: Note): Promise<any> {
     const { _id } = note;
+    console.log(note);
 
     const res = await this.axios.put("notes", String(_id), note);
 

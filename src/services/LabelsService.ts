@@ -15,6 +15,17 @@ export default class LabelsService {
   }
 
   /**
+   * Get Label by _id
+   * @param string id
+   * @return  Promise <Label>
+   */
+  public async getLabelById(id: string): Promise<Label> {
+    const { data } = await this.axios.get(`labels/${id}`);
+
+    return data;
+  }
+
+  /**
    * Save label
    * @param   Label    label
    * @return  Promise

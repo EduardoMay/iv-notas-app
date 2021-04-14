@@ -59,7 +59,7 @@ export default defineComponent({
       bookmark,
       trash,
       store,
-      labels: computed(() => store.state.notesLabels),
+      labels: computed(() => store.state.LabelsModule.labels),
       resetSlides,
       listLabels
     };
@@ -69,7 +69,7 @@ export default defineComponent({
       this.store.commit(types.DELETE_LABEL, { _id });
       this.resetSlides();
     },
-    selected(id: number) {
+    selected(id: string) {
       this.$store.commit(types.LABEL_SELECTED, { id });
     }
   }

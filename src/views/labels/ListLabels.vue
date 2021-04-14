@@ -97,7 +97,7 @@ export default defineComponent({
 
     return {
       id,
-      notes: selectNotesByIdLabel(Number(id)),
+      notes: selectNotesByIdLabel(String(id)),
       resetSlides,
       store,
       heart,

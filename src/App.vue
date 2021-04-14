@@ -13,9 +13,9 @@
         <ion-list>
           <ion-item
             v-for="label in labels"
-            :key="label.id"
+            :key="label._id"
             button
-            :router-link="'/labels/label/' + label.id"
+            :router-link="'/labels/label/' + label._id"
             @click="openEnd()"
           >
             <ion-icon
@@ -23,7 +23,9 @@
               slot="start"
               :style="{ color: label.color }"
             ></ion-icon>
-            <ion-label>{{ label.name }} ({{ label.count }})</ion-label>
+            <ion-label>
+              {{ label.description }} ({{ label.notes.length }})
+            </ion-label>
           </ion-item>
         </ion-list>
       </ion-content>
@@ -75,8 +77,10 @@ export default defineComponent({
     store.commit(types.GET_LABELS);
     store.commit(types.GET_NOTES);
 
+    console.log(store.state.LabelsModule.labels);
+
     return {
-      labels: computed(() => store.getters.getNotesByIdLabel),
+      labels: computed(() => store.state.LabelsModule.labels),
       bookmark
     };
   },

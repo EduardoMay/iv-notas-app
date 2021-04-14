@@ -20,10 +20,10 @@
       >
         <ion-select-option
           v-for="label in labels"
-          :key="label.id"
-          :value="label.id"
+          :key="label._id"
+          :value="label._id"
         >
-          <span :style="{ color: label.color }">{{ label.name }}</span>
+          <span :style="{ color: label.color }">{{ label.description }}</span>
         </ion-select-option>
       </ion-select>
     </ion-item>
@@ -84,7 +84,7 @@ export default defineComponent({
     let { id } = route?.params;
     let title = "";
     let description = "";
-    let label = 0;
+    let label = "";
 
     if (!id) {
       id = "";
@@ -93,7 +93,7 @@ export default defineComponent({
 
       title = note?.title || "";
       description = note?.description || "";
-      label = Number(note?.label) || 0;
+      label = note?.label || 0;
     }
 
     return {
@@ -103,7 +103,7 @@ export default defineComponent({
       description,
       label,
       store,
-      labels: computed(() => store.state.LabelsModule.notesLabels),
+      labels: computed(() => store.state.LabelsModule.labels),
       bookmark
     };
   },
@@ -113,11 +113,13 @@ export default defineComponent({
         const note: Note = {
           title: this.title,
           description: this.description,
-          label: Number(this.label),
+          label: this.label,
           favorite: false
         };
 
         if (this.id !== "") {
+          note._id = String(this.id);
+
           this.store.dispatch(types.UPDATE_NOTE, { note });
           this.router.replace(`/notes/view/${this.id}`);
         } else {

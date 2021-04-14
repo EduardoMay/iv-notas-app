@@ -40,6 +40,11 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
+    <div>
+      <pre>{{ label }}</pre>
+      {{ store.getters.getLabelById(store.state.LabelsModule.labelSelected) }}
+    </div>
   </form>
 </template>
 
@@ -82,9 +87,9 @@ export default defineComponent({
       store,
       color: computed(() => store.state.colorLabel || ""),
       label: computed(() =>
-        store.getters.getLabelById(store.state.labelSelected)
+        store.getters.getLabelById(store.state.LabelsModule.labelSelected)
       ),
-      selected: computed(() => store.state.labelSelected !== 0)
+      selected: computed(() => store.state.LabelsModule.labelSelected !== "")
     };
   },
   methods: {

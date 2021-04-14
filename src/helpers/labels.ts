@@ -68,7 +68,7 @@ export const deleteLabel = (label: Label): void => {
  *
  * @return  {Note[]}
  */
-export const selectNotesByIdLabel = (id: number): Note[] => {
+export const selectNotesByIdLabel = (id: string): Note[] => {
   return getNotes().filter((note) => note.label === id);
 };
 
