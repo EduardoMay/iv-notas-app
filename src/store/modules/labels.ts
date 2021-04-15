@@ -62,6 +62,15 @@ const getters = {
     } else {
       return label;
     }
+  },
+  getLabelsByIdNote: (state: any, getters: any, rootState: any) => (
+    id: any
+  ) => {
+    const notes = rootState.NotesModule.notes;
+
+    const notesSelected = _.filter(notes, { label: id });
+
+    return notesSelected;
   }
 };
 

@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
         redirect: "/labels/list"
       },
       {
-        path: "edit/:id",
+        path: "label/:id",
         component: () => import("@/views/labels/ListLabels.vue")
       },
       {

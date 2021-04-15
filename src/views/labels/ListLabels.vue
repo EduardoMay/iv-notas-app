@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ label.name }}</ion-title>
+        <ion-title>{{ label.description }}</ion-title>
         <ion-buttons slot="start">
           <ion-back-button default-href="/notes/list"></ion-back-button>
         </ion-buttons>
@@ -95,34 +95,29 @@ export default defineComponent({
 
     return {
       id,
-      notes: [],
+      notes: computed(() => store.getters.getLabelsByIdNote(id)),
       resetSlides,
       store,
       heart,
       create,
       trash,
-      label: {}
+      label: computed(() => store.getters.getLabelById(id))
     };
   },
   methods: {
     favorite(note: Note): void {
-      // TODO: Utilizar servicio para agregar a favoritos
-      // const favorite = getFavorites().find(
-      //   (favorite) => favorite._id === note._id
-      // );
-
-      // if (favorite) {
-      //   this.openToast("Ya esta en tu favoritos");
-      // } else {
-      //   this.store.dispatch(types.ADD_FAVORITE, { favorite: note });
-
-      //   this.openToast("Se agrego a favoritos");
-      // }
+      if (note.favorite) {
+        this.openToast("Ya esta en tu favoritos");
+      } else {
+        note.favorite = true;
+        this.store.dispatch(types.ADD_FAVORITE, { note });
+        this.openToast("Se agrego a favoritos");
+      }
 
       this.resetSlides();
     },
-    deleteNote(id: number) {
-      this.store.dispatch(types.DELETE_NOTE, { id });
+    async deleteNote(id: number) {
+      await this.store.dispatch(types.DELETE_NOTE, { id });
     },
     async openToast(message: string) {
       const toast = await toastController.create({
