@@ -11,11 +11,11 @@ const state = () => ({
 const actions = {
   async addFavorite({ commit }: any, payload: any) {
     await commit(types.ADD_FAVORITE, payload);
-    await commit(types.GET_NOTES);
+    // await commit(types.GET_NOTES);
   },
   async deleteFavorite({ commit }: any, payload: any) {
     await commit(types.ADD_FAVORITE, payload);
-    await commit(types.GET_NOTES);
+    // await commit(types.GET_NOTES);
   }
 };
 
@@ -28,6 +28,7 @@ const mutations = {
 const getters = {
   getFavorites: (state: any, getters: any, rootState: any) => {
     const notes = rootState.NotesModule.notes;
+    console.table(notes);
 
     const favorites = notes.filter((note: Note) => note.favorite && note);
 

@@ -60,9 +60,7 @@ import {
   toastController
 } from "@ionic/vue";
 import { useRoute } from "vue-router";
-import { getLabelById, selectNotesByIdLabel } from "@/helpers/labels";
 import { Note } from "@/interfaces/Note";
-import { getFavorites } from "@/helpers/favorites";
 import { useStore } from "vuex";
 import { types } from "@/types/types";
 import { heart, create, trash } from "ionicons/icons";
@@ -97,28 +95,29 @@ export default defineComponent({
 
     return {
       id,
-      notes: selectNotesByIdLabel(String(id)),
+      notes: [],
       resetSlides,
       store,
       heart,
       create,
       trash,
-      label: computed(() => getLabelById(Number(id)))
+      label: {}
     };
   },
   methods: {
     favorite(note: Note): void {
-      const favorite = getFavorites().find(
-        (favorite) => favorite._id === note._id
-      );
+      // TODO: Utilizar servicio para agregar a favoritos
+      // const favorite = getFavorites().find(
+      //   (favorite) => favorite._id === note._id
+      // );
 
-      if (favorite) {
-        this.openToast("Ya esta en tu favoritos");
-      } else {
-        this.store.dispatch(types.ADD_FAVORITE, { favorite: note });
+      // if (favorite) {
+      //   this.openToast("Ya esta en tu favoritos");
+      // } else {
+      //   this.store.dispatch(types.ADD_FAVORITE, { favorite: note });
 
-        this.openToast("Se agrego a favoritos");
-      }
+      //   this.openToast("Se agrego a favoritos");
+      // }
 
       this.resetSlides();
     },
