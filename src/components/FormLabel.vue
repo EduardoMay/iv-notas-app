@@ -40,11 +40,6 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-
-    <div>
-      <pre>{{ label }}</pre>
-      {{ store.getters.getLabelById(store.state.LabelsModule.labelSelected) }}
-    </div>
   </form>
 </template>
 
@@ -85,7 +80,7 @@ export default defineComponent({
       bookmark,
       close,
       store,
-      color: computed(() => store.state.colorLabel || ""),
+      color: computed(() => store.state.LabelsModule.colorLabel || ""),
       label: computed(() =>
         store.getters.getLabelById(store.state.LabelsModule.labelSelected)
       ),
@@ -94,9 +89,9 @@ export default defineComponent({
   },
   methods: {
     saveLabel(event: any): void {
-      if (this.label.name !== "") {
+      if (this.label.description !== "") {
         const label: Label = {
-          description: this.label.description,
+          ...this.label,
           color: this.color
         };
 
@@ -106,8 +101,9 @@ export default defineComponent({
           this.store.commit(types.ADD_LABEL, { label });
 
           event.target.reset();
-          this.resetForm();
         }
+
+        this.resetForm();
       }
     },
     async openPopover(ev: Event): Promise<void> {
@@ -121,7 +117,7 @@ export default defineComponent({
       return popover.present();
     },
     resetForm(): void {
-      this.store.state.labelSelected = 0;
+      this.store.state.LabelsModule.labelSelected = 0;
       this.label.name = "";
       this.store.commit(types.SET_COLOR_LABEL, { color: "#92949c" });
     }

@@ -61,4 +61,12 @@ export default class LabelsService {
 
     console.log(res);
   }
+
+  public async updateLabel(label: Label): Promise<any> {
+    const { _id } = label;
+
+    const res = await this.axios.put("labels", String(_id), label);
+
+    console.log(res);
+  }
 }

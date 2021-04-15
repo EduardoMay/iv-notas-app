@@ -1,8 +1,6 @@
 import _ from "lodash";
 
-import { getLabelById, getLabels, updateLabel } from "@/helpers/labels";
 import { Label } from "@/interfaces/Label";
-import { Note } from "@/interfaces/Note";
 import LabelsService from "@/services/LabelsService";
 import { types } from "@/types/types";
 
@@ -46,23 +44,18 @@ const mutations = {
     state.labelSelected = payload.id;
     state.colorLabel = label.color;
   },
-  [types.UPDATE_LABEL](state: any, payload: any): void {
-    updateLabel(payload.label);
-
-    state.labels = getLabels();
-    state.colorLabel = "#92949c";
-    state.labelSelected = 0;
+  async [types.UPDATE_LABEL](state: any, { label }: any): Promise<void> {
+    await labelService.updateLabel(label);
   }
 };
 
 const getters = {
   getLabelById: (state: any) => (id: any) => {
-    console.log(true);
     const label: Label = { description: "", color: "#92949c" };
 
     if (id === 0) return label;
 
-    const obj = _.find(state.labels, { id });
+    const obj = _.find(state.labels, { _id: id });
 
     if (obj) {
       return obj;
