@@ -95,7 +95,7 @@ export default defineComponent({
           color: this.color
         };
 
-        if (this.store.state.labelSelected !== 0) {
+        if (this.store.state.LabelsModule.labelSelected !== "") {
           this.store.commit(types.UPDATE_LABEL, { label });
         } else {
           this.store.commit(types.ADD_LABEL, { label });
@@ -117,7 +117,7 @@ export default defineComponent({
       return popover.present();
     },
     resetForm(): void {
-      this.store.state.LabelsModule.labelSelected = 0;
+      this.store.state.LabelsModule.labelSelected = "";
       this.label.name = "";
       this.store.commit(types.SET_COLOR_LABEL, { color: "#92949c" });
     }

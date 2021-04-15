@@ -44,7 +44,7 @@ export default defineComponent({
     };
   },
   ionViewDidLeave() {
-    this.store.state.labelSelected = 0;
+    this.store.state.labelSelected = "";
     this.store.state.colorLabel = "#92949c";
   }
 });

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
-import Tabs from "../views/Tabs.vue";
+import Tabs from "@/views/Tabs.vue";
+import ViewNote from "@/views/notes/ViewNote.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,10 +21,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/notes/ListNotes.vue")
       },
       {
-        path: "view/:id",
-        component: () => import("@/views/notes/ViewNote.vue")
-      },
-      {
         path: "add",
         component: () => import("@/views/notes/AddNote.vue")
       },
@@ -34,6 +31,11 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/notes/view/:id",
+    name: "ViewNote",
+    component: ViewNote
+  },
+  {
     path: "/labels/",
     component: Tabs,
     children: [
@@ -42,14 +44,15 @@ const routes: Array<RouteRecordRaw> = [
         redirect: "/labels/list"
       },
       {
-        path: "label/:id",
-        component: () => import("@/views/labels/ListLabels.vue")
-      },
-      {
         path: "list",
         component: () => import("@/views/labels/Labels.vue")
       }
     ]
+  },
+  {
+    path: "/labels/label/:id",
+    name: "Label",
+    component: () => import("@/views/labels/ListLabels.vue")
   },
   {
     path: "/favorites",

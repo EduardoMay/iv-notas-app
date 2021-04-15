@@ -46,6 +46,8 @@ const mutations = {
   },
   async [types.UPDATE_LABEL](state: any, { label }: any): Promise<void> {
     await labelService.updateLabel(label);
+
+    state.labels = await labelService.getLabels();
   }
 };
 
@@ -53,9 +55,11 @@ const getters = {
   getLabelById: (state: any) => (id: any) => {
     const label: Label = { description: "", color: "#92949c" };
 
-    if (id === 0) return label;
+    if (id === 0 || !id) return label;
 
-    const obj = _.find(state.labels, { _id: id });
+    const obj: Label = _.find(state.labels, { _id: id });
+
+    obj.labelId = id;
 
     if (obj) {
       return obj;
@@ -68,7 +72,7 @@ const getters = {
   ) => {
     const notes = rootState.NotesModule.notes;
 
-    const notesSelected = _.filter(notes, { label: id });
+    const notesSelected = _.filter(notes, { label: { labelId: id } });
 
     return notesSelected;
   }
