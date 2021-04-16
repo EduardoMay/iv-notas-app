@@ -13,6 +13,7 @@ const actions = {
   },
   addNote({ commit }: any, payload: any): void {
     commit(types.ADD_NOTE, payload);
+    commit(types.GET_LABELS);
   },
   updateNote({ commit }: any, payload: any): void {
     commit(types.UPDATE_NOTE, payload);

@@ -90,11 +90,11 @@ export default defineComponent({
     if (!id) {
       id = "";
     } else {
-      const note = await store.getters.getNoteBydId(id);
+      const note: Note = await store.getters.getNoteBydId(id);
 
       title = note?.title || "";
       description = note?.description || "";
-      label = note?.label || 0;
+      label = note?.label?._id || "";
     }
 
     return {
