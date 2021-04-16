@@ -1,5 +1,7 @@
 import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
+import _ from "lodash";
+import { store } from "..";
 
 const noteService = new NotesService();
 
@@ -13,7 +15,8 @@ const actions = {
   },
   addNote({ commit }: any, payload: any): void {
     commit(types.ADD_NOTE, payload);
-    commit(types.GET_LABELS);
+
+    store.commit(types.GET_LABELS);
   },
   updateNote({ commit }: any, payload: any): void {
     commit(types.UPDATE_NOTE, payload);
@@ -45,8 +48,8 @@ const mutations = {
 };
 
 const getters = {
-  getNoteBydId: () => async (id: string) => {
-    return await noteService.getNoteById(id);
+  getNoteBydId: (state: any) => (id: string) => {
+    return _.find(state.notes, { _id: id });
   }
 };
 
