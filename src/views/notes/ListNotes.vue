@@ -2,6 +2,11 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button @click="openMenu()">
+            <ion-icon :icon="menu" slot="icon-only" />
+          </ion-button>
+        </ion-buttons>
         <ion-title>Notas</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -50,10 +55,13 @@ import {
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
+  IonButtons,
+  IonButton,
   toastController,
-  IonIcon
+  IonIcon,
+  menuController
 } from "@ionic/vue";
-import { heart, create, trash } from "ionicons/icons";
+import { heart, create, trash, menu } from "ionicons/icons";
 import { useStore } from "vuex";
 import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -74,6 +82,8 @@ export default defineComponent({
     IonItemSliding,
     IonItemOptions,
     IonItemOption,
+    IonButtons,
+    IonButton,
     IonIcon
   },
   setup() {
@@ -89,6 +99,7 @@ export default defineComponent({
       heart,
       router,
       trash,
+      menu,
       create,
       resetSlides,
       listNotes,
@@ -119,6 +130,9 @@ export default defineComponent({
       });
 
       return toast.present();
+    },
+    openMenu() {
+      menuController.open("menu");
     }
   }
 });

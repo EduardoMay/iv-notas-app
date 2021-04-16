@@ -2,6 +2,11 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button @click="openMenu()">
+            <ion-icon :icon="menu" slot="icon-only" />
+          </ion-button>
+        </ion-buttons>
         <ion-title>Favoritos</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -41,9 +46,12 @@ import {
   IonItemOption,
   IonIcon,
   IonLabel,
-  IonItem
+  IonItem,
+  IonButtons,
+  IonButton,
+  menuController
 } from "@ionic/vue";
-import { trash } from "ionicons/icons";
+import { trash, menu } from "ionicons/icons";
 import { useStore } from "vuex";
 import { computed, defineComponent } from "vue";
 import { useRouter } from "vue-router";
@@ -64,6 +72,8 @@ export default defineComponent({
     IonItemOption,
     IonIcon,
     IonLabel,
+    IonButtons,
+    IonButton,
     IonItem
   },
   setup() {
@@ -72,6 +82,7 @@ export default defineComponent({
 
     return {
       trash,
+      menu,
       router,
       store,
       favorites: computed(() => store.getters.getFavorites)
@@ -81,6 +92,9 @@ export default defineComponent({
     remove(note: Note): void {
       note.favorite = false;
       this.store.dispatch(types.DELETE_FAVORITE, { note });
+    },
+    openMenu() {
+      menuController.open("menu");
     }
   }
 });

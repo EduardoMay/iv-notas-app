@@ -1,6 +1,6 @@
 <template>
   <ion-app>
-    <ion-menu side="start" content-id="main-content">
+    <ion-menu side="start" content-id="main-content" menu-id="menu">
       <ion-header>
         <ion-toolbar translucent>
           <ion-title>Menu</ion-title>
