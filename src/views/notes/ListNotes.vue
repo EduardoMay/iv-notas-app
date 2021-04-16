@@ -19,7 +19,20 @@
             </ion-item-option>
           </ion-item-options>
           <ion-item :router-link="'/notes/view/' + note._id">
-            <ion-label>{{ note.title }}</ion-label>
+            <ion-label>
+              {{ note.title }}
+            </ion-label>
+            <ion-chip
+              slot="end"
+              outline
+              color="primary"
+              :style="{ borderColor: note.label.color }"
+              v-if="note.label"
+            >
+              <ion-label :style="{ color: note.label.color }">
+                {{ note.label.description }}
+              </ion-label>
+            </ion-chip>
           </ion-item>
           <ion-item-options side="end">
             <ion-item-option @click="deleteNote(note._id)" color="danger">
@@ -57,6 +70,7 @@ import {
   IonItemOption,
   IonButtons,
   IonButton,
+  IonChip,
   toastController,
   IonIcon,
   menuController
@@ -84,6 +98,7 @@ export default defineComponent({
     IonItemOption,
     IonButtons,
     IonButton,
+    IonChip,
     IonIcon
   },
   setup() {
