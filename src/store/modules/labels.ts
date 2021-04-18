@@ -3,6 +3,7 @@ import _ from "lodash";
 import { Label } from "@/interfaces/Label";
 import LabelsService from "@/services/LabelsService";
 import { types } from "@/types/types";
+import { Note } from "@/interfaces/Note";
 
 const labelService = new LabelsService();
 
@@ -59,8 +60,6 @@ const getters = {
 
     const obj: Label = _.find(state.labels, { _id: id });
 
-    obj.labelId = id;
-
     if (obj) {
       return obj;
     } else {
@@ -71,10 +70,22 @@ const getters = {
     id: any
   ) => {
     const notes = rootState.NotesModule.notes;
+    const labels: Label[] = rootState.labels;
 
-    const notesSelected = _.filter(notes, { label: { labelId: id } });
+    const notesSelected = _.filter(notes, { label: id });
 
-    return notesSelected;
+    return notesSelected.map((note: Note) => {
+      const { label: idLabel } = note;
+
+      const label = _.find(labels, { _id: idLabel });
+
+      if (label) {
+        note.labelDescription = label.description;
+        note.labelColor = label.color;
+      }
+
+      return note;
+    });
   }
 };
 

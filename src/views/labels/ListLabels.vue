@@ -59,7 +59,7 @@ import {
   IonIcon,
   toastController
 } from "@ionic/vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { Note } from "@/interfaces/Note";
 import { useStore } from "vuex";
 import { types } from "@/types/types";
@@ -88,6 +88,7 @@ export default defineComponent({
     const { id } = route.params;
     const listNotes = ref();
     const store = useStore();
+    const router = useRouter();
 
     const resetSlides = () => {
       listNotes.value.$el.closeSlidingItems();
@@ -101,7 +102,8 @@ export default defineComponent({
       heart,
       create,
       trash,
-      label: computed(() => store.getters.getLabelById(id))
+      label: computed(() => store.getters.getLabelById(id)),
+      router
     };
   },
   methods: {
