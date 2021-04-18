@@ -5,8 +5,6 @@ import { Note } from "@/interfaces/Note";
 import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
 
-import { store } from "../";
-
 const noteService = new NotesService();
 
 const state = () => ({
@@ -17,15 +15,17 @@ const actions = {
   getNotes({ commit }: any): void {
     commit(types.GET_NOTES);
   },
-  addNote({ commit }: any, payload: any): void {
-    commit(types.ADD_NOTE, payload);
+  async addNote({ commit }: any, { note }: any): Promise<void> {
+    await noteService.saveNote(note);
 
-    store.commit(types.GET_LABELS);
+    commit(types.GET_NOTES);
+    commit(types.GET_LABELS);
   },
-  updateNote({ commit }: any, payload: any): void {
-    commit(types.UPDATE_NOTE, payload);
+  async updateNote({ commit }: any, { note }: any): Promise<void> {
+    await noteService.update(note);
 
-    store.commit(types.GET_LABELS);
+    commit(types.GET_NOTES);
+    commit(types.GET_LABELS);
   },
   deleteNote({ commit }: any, payload: any): void {
     commit(types.DELETE_NOTE, payload);
@@ -34,16 +34,6 @@ const actions = {
 
 const mutations = {
   async [types.GET_NOTES](state: any) {
-    state.notes = await noteService.getNotes();
-  },
-  async [types.ADD_NOTE](state: any, payload: any) {
-    await noteService.saveNote(payload.note);
-
-    state.notes = await noteService.getNotes();
-  },
-  async [types.UPDATE_NOTE](state: any, { note }: any) {
-    await noteService.update(note);
-
     state.notes = await noteService.getNotes();
   },
   async [types.DELETE_NOTE](state: any, payload: any) {
