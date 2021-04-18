@@ -1,6 +1,9 @@
+import _ from "lodash";
+
+import { Label } from "@/interfaces/Label";
+import { Note } from "@/interfaces/Note";
 import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
-import _ from "lodash";
 
 const noteService = new NotesService();
 
@@ -26,8 +29,22 @@ const mutations = {
 const getters = {
   getFavorites: (state: any, getters: any, rootState: any) => {
     const notes = rootState.NotesModule.notes;
+    const labels: Label[] = rootState.LabelsModule.labels;
 
-    return _.filter(notes, { favorite: true });
+    const favorites: Note[] = _.filter(notes, { favorite: true });
+
+    return favorites.map((note: Note) => {
+      const { label: idLabel } = note;
+
+      const label = _.find(labels, { _id: idLabel });
+
+      if (label) {
+        note.labelDescription = label.description;
+        note.labelColor = label.color;
+      }
+
+      return note;
+    });
   }
 };
 

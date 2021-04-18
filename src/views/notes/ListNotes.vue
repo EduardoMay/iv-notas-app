@@ -11,7 +11,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-list v-if="notes.length > 0" ref="listNotes">
+      <ion-list v-if="notes" ref="listNotes">
         <ion-item-sliding v-for="(note, index) in notes" :key="index">
           <ion-item-options side="start">
             <ion-item-option @click="favorite(note)" color="danger" expandable>
@@ -26,11 +26,11 @@
               slot="end"
               outline
               color="primary"
-              :style="{ borderColor: note.label.color }"
+              :style="{ borderColor: note.labelColor }"
               v-if="note.label"
             >
-              <ion-label :style="{ color: note.label.color }">
-                {{ note.label.description }}
+              <ion-label :style="{ color: note.labelColor }">
+                {{ note.labelDescription }}
               </ion-label>
             </ion-chip>
           </ion-item>
@@ -119,7 +119,7 @@ export default defineComponent({
       resetSlides,
       listNotes,
       store,
-      notes: computed(() => store.state.NotesModule.notes)
+      notes: computed(() => store.getters.notes)
     };
   },
   methods: {

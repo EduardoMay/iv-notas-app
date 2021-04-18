@@ -65,7 +65,6 @@ import { useRoute, useRouter } from "vue-router";
 import { Note } from "@/interfaces/Note";
 import { types } from "@/types/types";
 import { bookmark } from "ionicons/icons";
-import { Label } from "@/interfaces/Label";
 
 export default defineComponent({
   name: "FormNote",
@@ -91,10 +90,10 @@ export default defineComponent({
       id = "";
     } else {
       const note: Note = await store.getters.getNoteBydId(id);
-
+      console.log(note);
       title = note?.title || "";
       description = note?.description || "";
-      label = note?.label?._id || "";
+      label = note?.label || "";
     }
 
     return {
@@ -111,17 +110,12 @@ export default defineComponent({
   methods: {
     saveNote(): void {
       if (this.title !== "") {
-        const label: Label = this.store.getters.getLabelById(this.label);
-
         const note: Note = {
           title: this.title,
           description: this.description,
-          favorite: false
+          favorite: false,
+          label: this.label || ""
         };
-
-        if (label.labelId) {
-          note.label = label;
-        }
 
         if (this.id !== "") {
           note._id = String(this.id);

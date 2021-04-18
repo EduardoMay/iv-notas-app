@@ -1,7 +1,11 @@
+import _ from "lodash";
+
+import { Label } from "@/interfaces/Label";
+import { Note } from "@/interfaces/Note";
 import NotesService from "@/services/NotesService";
 import { types } from "@/types/types";
-import _ from "lodash";
-import { store } from "..";
+
+import { store } from "../";
 
 const noteService = new NotesService();
 
@@ -50,6 +54,23 @@ const mutations = {
 const getters = {
   getNoteBydId: (state: any) => (id: string) => {
     return _.find(state.notes, { _id: id });
+  },
+  notes: (state: any, getters: any, rootState: any) => {
+    const notes: Note[] = state.notes;
+    const labels: Label[] = rootState.LabelsModule.labels;
+
+    return notes.map((note: Note) => {
+      const { label: idLabel } = note;
+
+      const label = _.find(labels, { _id: idLabel });
+
+      if (label) {
+        note.labelDescription = label.description;
+        note.labelColor = label.color;
+      }
+
+      return note;
+    });
   }
 };
 

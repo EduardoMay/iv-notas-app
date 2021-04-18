@@ -21,6 +21,17 @@
             "
           >
             <ion-label>{{ favorite.title }}</ion-label>
+            <ion-chip
+              slot="end"
+              outline
+              color="primary"
+              :style="{ borderColor: favorite.labelColor }"
+              v-if="favorite.label"
+            >
+              <ion-label :style="{ color: favorite.labelColor }">
+                {{ favorite.labelDescription }}
+              </ion-label>
+            </ion-chip>
           </ion-item>
           <ion-item-options side="end">
             <ion-item-option @click="remove(favorite)" color="danger">
@@ -49,6 +60,7 @@ import {
   IonItem,
   IonButtons,
   IonButton,
+  IonChip,
   menuController
 } from "@ionic/vue";
 import { trash, menu } from "ionicons/icons";
@@ -74,6 +86,7 @@ export default defineComponent({
     IonLabel,
     IonButtons,
     IonButton,
+    IonChip,
     IonItem
   },
   setup() {
