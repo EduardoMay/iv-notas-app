@@ -7,7 +7,10 @@
           <ion-back-button default-href="/notes/list"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-          <ion-button :router-link="'/notes/edit/' + id">
+          <ion-button @click="deleteNote(String(id))" color="danger">
+            <ion-icon :icon="trash" slot="icon-only" />
+          </ion-button>
+          <ion-button :router-link="'/notes/edit/' + id" color="primary">
             <ion-icon :icon="create" slot="icon-only" />
           </ion-button>
         </ion-buttons>
@@ -38,7 +41,9 @@ import {
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
-import { create } from "ionicons/icons";
+import { create, trash } from "ionicons/icons";
+import { useStore } from "vuex";
+import { types } from "@/types/types";
 
 export default defineComponent({
   name: "ViewNote",
@@ -61,9 +66,10 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    const store = useStore();
     const { id } = route.params;
 
-    return { id, create };
+    return { id, create, trash, store };
   },
   methods: {
     async getNote(): Promise<void> {
@@ -71,6 +77,9 @@ export default defineComponent({
 
       this.title = note ? note?.title : "";
       this.description = note ? note?.description : "";
+    },
+    async deleteNote(id: string): Promise<void> {
+      await this.store.dispatch(types.DELETE_NOTE, { id });
     }
   },
   created() {
