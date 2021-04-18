@@ -18,8 +18,19 @@
               <ion-icon :icon="heart" slot="icon-only" />
             </ion-item-option>
           </ion-item-options>
-          <ion-item :router-link="'/notes/view/' + note._id">
-            <ion-label>
+          <ion-item>
+            <ion-chip
+              slot="start"
+              outline
+              color="danger"
+              v-if="note.favorite"
+              @click="removeFavorite(note)"
+            >
+              <ion-label>
+                <ion-icon :icon="heart" slot="icon-only" />
+              </ion-label>
+            </ion-chip>
+            <ion-label :router-link="'/notes/view/' + note._id">
               {{ note.title }}
             </ion-label>
             <ion-chip
@@ -145,6 +156,11 @@ export default defineComponent({
       });
 
       return toast.present();
+    },
+    removeFavorite(note: Note): void {
+      note.favorite = false;
+
+      this.store.dispatch(types.DELETE_FAVORITE, { note });
     },
     openMenu() {
       menuController.open("menu");
