@@ -40,7 +40,7 @@ import {
   IonIcon
 } from "@ionic/vue";
 import { defineComponent } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { create, trash } from "ionicons/icons";
 import { useStore } from "vuex";
 import { types } from "@/types/types";
@@ -58,35 +58,27 @@ export default defineComponent({
     IonBackButton,
     IonIcon
   },
-  data() {
-    return {
-      title: "",
-      description: ""
-    };
-  },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const store = useStore();
     const { id } = route.params;
+    let title = "";
+    let description = "";
 
-    return { id, create, trash, store };
+    const note = store.getters.getNoteBydId(id);
+
+    title = note ? note?.title : "";
+    description = note ? note?.description : "";
+
+    return { id, create, trash, store, title, description, router };
   },
   methods: {
-    async getNote(): Promise<void> {
-      const note = await this.$store.getters.getNoteBydId(this.id);
-
-      this.title = note ? note?.title : "";
-      this.description = note ? note?.description : "";
-    },
     async deleteNote(id: string): Promise<void> {
       await this.store.dispatch(types.DELETE_NOTE, { id });
+
+      this.router.replace(`/notes/list`);
     }
-  },
-  created() {
-    this.getNote();
-  },
-  ionViewDidEnter() {
-    this.getNote();
   }
 });
 </script>
