@@ -24,6 +24,8 @@ const actions = {
   },
   updateNote({ commit }: any, payload: any): void {
     commit(types.UPDATE_NOTE, payload);
+
+    store.commit(types.GET_LABELS);
   },
   deleteNote({ commit }: any, payload: any): void {
     commit(types.DELETE_NOTE, payload);
