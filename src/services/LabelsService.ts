@@ -6,7 +6,7 @@ export default class LabelsService {
 
   /**
    * Get all labels
-   * @return  Promise <Label[]>
+   * @returns  {Array} array of Label
    */
   public async getLabels(): Promise<Label[]> {
     const { data } = await this.axios.get("labels");
@@ -16,8 +16,8 @@ export default class LabelsService {
 
   /**
    * Get Label by _id
-   * @param string id
-   * @return  Promise <Label>
+   * @param {string} id
+   * @returns  {object}  object of Label
    */
   public async getLabelById(id: string): Promise<Label> {
     const { data } = await this.axios.get(`labels/${id}`);
@@ -27,46 +27,51 @@ export default class LabelsService {
 
   /**
    * Save label
-   * @param   Label    label
-   * @return  Promise
+   * @param   {Label} label
+   * @returns  {boolean} status of request
    */
-  public async saveLabel(label: Label): Promise<any> {
+  public async saveLabel(label: Label): Promise<boolean> {
     const res = await this.axios.post("labels", label);
 
     console.log(res);
+
+    return res.status === 200;
   }
 
   /**
    * Delete label
-   * @param   string  id
-   * @return  Promise
+   * @param   {string}  id id of label
+   * @returns  {boolean} status of request
    */
-  public async deleteLabel(id: string): Promise<any> {
+  public async deleteLabel(id: string): Promise<boolean> {
     const res = await this.axios.delete("labels", id);
 
-    console.log(res);
+    return res.status === 200;
   }
 
   /**
    * Add Id Note into Label
-   * TODO Agregar id de Note al campo "notas" de Label
-   * @param   string  idLabel
-   * @param   string  idNote
-   * @return  Promise
+   * @param   {string<Label>}  idLabel
+   * @returns  {boolean} status of request
    */
-  public async setIdNoteToLabel(label: Label): Promise<any> {
+  public async setIdNoteToLabel(label: Label): Promise<boolean> {
     const { _id } = label;
 
     const res = await this.axios.put("labels", String(_id), label);
 
-    console.log(res);
+    return res.status === 200;
   }
 
-  public async updateLabel(label: Label): Promise<any> {
+  /**
+   * Update label
+   * @param   {Label}    label
+   * @returns  {boolean} status of request
+   */
+  public async updateLabel(label: Label): Promise<boolean> {
     const { _id } = label;
 
     const res = await this.axios.put("labels", String(_id), label);
 
-    console.log(res);
+    return res.status === 200;
   }
 }

@@ -4,6 +4,10 @@ import { Note } from "@/interfaces/Note";
 export default class NotesService {
   axios = new Axios();
 
+  /**
+   * Get all notes
+   * @returns  {Array} Array of Note
+   */
   public async getNotes(): Promise<Note[]> {
     const { data } = await this.axios.get("notes");
 
@@ -11,7 +15,9 @@ export default class NotesService {
   }
 
   /**
-   * name
+   * Get note by id of label
+   * @param {string} id id of label
+   * @returns {Array} Object of Note
    */
   public async getNoteById(id: string): Promise<Note> {
     const { data } = await this.axios.get(`notes/${id}`);
@@ -19,30 +25,49 @@ export default class NotesService {
     return data;
   }
 
-  public async saveNote(note: Note): Promise<any> {
+  /**
+   * Save new note
+   * @param   {object<Note>}  note
+   * @returns  {boolean} status of request
+   */
+  public async saveNote(note: Note): Promise<boolean> {
     const res = await this.axios.post("notes", note);
 
-    console.log(res);
+    return res.status === 200;
   }
 
-  public async deleteNote(id: string): Promise<any> {
+  /**
+   * Delete note by id
+   * @param   {string}  id  id of notes
+   * @returns  {boolean} status of request
+   */
+  public async deleteNote(id: string): Promise<boolean> {
     const res = await this.axios.delete("notes", id);
 
-    console.log(res);
+    return res.status === 200;
   }
 
-  public async update(note: Note): Promise<any> {
+  /**
+   * Update note
+   * @param   {object<Note>}  note
+   * @returns  {boolean} status of request
+   */
+  public async update(note: Note): Promise<boolean> {
     const { _id } = note;
-    console.log(note);
 
     const res = await this.axios.put("notes", String(_id), note);
 
-    console.log(res);
+    return res.status === 200;
   }
 
-  public async setFavorite(note: Note): Promise<any> {
+  /**
+   * Add status of favorite into note
+   * @param   {object<Note>}  note
+   * @returns  {boolean} status of request
+   */
+  public async setFavorite(note: Note): Promise<boolean> {
     const res = await this.axios.put("favorites", String(note._id), note);
 
-    console.log(res);
+    return res.status === 200;
   }
 }
