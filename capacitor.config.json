@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "com.lalo.notes",
   "appName": "ivue",
   "bundledWebRuntime": false,
   "npmClient": "npm",
