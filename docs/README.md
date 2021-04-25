@@ -20,14 +20,51 @@ Labels
 - Delete label
 - Update label
 
+## Change features
+
+Process
+
+- User
+  - form login
+  - form register
+  - logout
+- Add reminder
+  - Add one or more tags
+  - Add priority
+    - Priority 1
+    - Priority 2
+    - etc
+  - Add lock priority with password
+- View reminders in view lista or grid view
+  - list
+    - view for dates
+  - grid
+    - for card
+- View Priorities
+  - Create priorities
+  - Edit priorities
+  - Delete priorities
+  - Add custom color or view colors (red, orange, yellow and green)
+- View labels
+  - Create priorities
+  - Edit priorities
+  - Delete priorities
+  - Add custom color
+- Notifications
+  - Notify priorities
+
 # New features
 
-APIS
+## Priority 1
 
-- Change table Label
-  - add id_note
+- [ ] Add login user?
+- [ ] Add calendar in the page home o view list for date
 
-APP
+## Priority 2
+
+- [ ] Change notes for pending
+
+## Priority 3
 
 - [ ] Add more colores in the labels
 - [ ] Add ckeditor in the form of notes
